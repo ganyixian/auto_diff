@@ -1,10 +1,6 @@
 # team04
 CS107FinalProject
 
-![Testing badge on branch repo_setup](https://code.harvard.edu/CS107/team04/.github/test.yml/badge.svg?branch=repo_setup)
+[![.github/workflows/test.yml](https://code.harvard.edu/CS107/team04/actions/workflows/test.yml/badge.svg)](https://code.harvard.edu/CS107/team04/actions/workflows/test.yml)
 
-
-
-![test.yml](https://code.harvard.edu/CS107/team04/.github/test.yml/badge.svg?branch=main)
-
-![coverage.yml](https://code.harvard.edu/CS107/team04/.github/test.yml/badge.svg?branch=main)
+[![.github/workflows/coverage.yml](https://code.harvard.edu/CS107/team04/actions/workflows/coverage.yml/badge.svg)](https://code.harvard.edu/CS107/team04/actions/workflows/coverage.yml)
