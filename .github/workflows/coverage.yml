@@ -1,0 +1,6 @@
+name: Code Coverage Checker
+
+on:
+  push:
+  pull_request:
+    types: [opened]
