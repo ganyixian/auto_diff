@@ -6,7 +6,7 @@
 *.bak
 *.swp
 *.zip
-
+.Rhistory
 .bash_history
 **/.cache
 **/.local
