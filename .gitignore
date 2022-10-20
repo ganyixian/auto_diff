@@ -1,0 +1,12 @@
+**/__pycache__
+*.pyc
+.DS_Store
+.idea
+*~
+*.bak
+*.swp
+*.zip
+.Rhistory
+.bash_history
+**/.cache
+**/.local
