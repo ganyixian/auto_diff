@@ -6,8 +6,8 @@
 
 import numpy as np
 
-from . import dual
-from . import ops
+from ..dual import Dual
+from .ops import ops
 
 
 class Expression:
@@ -121,9 +121,9 @@ class Variable(Expression):
         assert seed is not None, 'Please provide a seed vector'
 
         if type(inputs) == dict and type(seed) == dict:
-            self.val = dual.Dual(inputs.get(self.name, 0), seed.get(self.name, 0))
+            self.val = Dual(inputs.get(self.name, 0), seed.get(self.name, 0))
         elif type(inputs) == int and type(seed) == int:
-            self.val = dual.Dual(inputs, seed)
+            self.val = Dual(inputs, seed)
         else:
             raise ValueError(
                 f"Unsupported type {type(inputs)} for variable inputs and type {type(seed)} for seed vector")
