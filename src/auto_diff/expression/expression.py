@@ -3,12 +3,10 @@
 # File       : expression.py
 # Description: autodiff functional expressions
 # Copyright 2022 Harvard University. All Rights Reserved.
-
 import numpy as np
 
-from . import dual
-from . import ops
-
+from ..dual import Dual
+from .ops import ops
 
 class Expression:
     def __init__(self, mode='f', name=None):
@@ -95,43 +93,30 @@ class Expression:
     def __neg__(self):
         return Function(self, f=(lambda x: -x))
 
-    def forward(self, inputs, seed):
-        raise NotImplementedError
+    def sin(x):
+        if isinstance(x, (int, float)):
+            return np.sin(x)
+        return Function(x, f=ops._sin)
 
-    def clear(self):
-        raise NotImplementedError
+    def cos(x):
+        if isinstance(x, (int, float)):
+            return np.cos(x)
+        return Function(x, f=ops._cos)
 
+    def tan(x):
+        if isinstance(x, (int, float)):
+            return np.tan(x)
+        return Function(x, f=ops._tan)
 
-class Variable(Expression):
+    def exp(x):
+        if isinstance(x, (int, float)):
+            return np.exp(x)
+        return Function(x, f=ops._exp)
 
-    def __init__(self, name, val=None, mode='f'):
-        super(Variable, self).__init__(mode=mode, name=name)
-        self.name = name
-        self.varname.add(name)
-
-    @classmethod
-    def vars(cls, varlist=[]):
-        assert isinstance(varlist, (list, tuple)), 'Please provide a list of variable names.'
-        return [cls(v) for v in varlist]
-
-    def forward(self, inputs, seed):
-        if self.val:
-            return self.val
-
-        assert seed is not None, 'Please provide a seed vector'
-
-        if type(inputs) == dict and type(seed) == dict:
-            self.val = dual.Dual(inputs.get(self.name, 0), seed.get(self.name, 0))
-        elif type(inputs) == int and type(seed) == int:
-            self.val = dual.Dual(inputs, seed)
-        else:
-            raise ValueError(
-                f"Unsupported type {type(inputs)} for variable inputs and type {type(seed)} for seed vector")
-
-        return self.val
-
-    def clear(self):
-        self.val = None
+    def log(x):
+        if isinstance(x, (int, float)):
+            return np.log(x)
+        return Function(x, f=ops._log)
 
 
 class Function(Expression):
@@ -164,32 +149,33 @@ class Function(Expression):
             self.e2.clear()
         self.val = None
 
+class Variable(Function):
 
-def tan(x):
-    if isinstance(x, (int, float)):
-        return np.tan(x)
-    return Function(x, f=ops._tan)
+    def __init__(self, name, val=None, mode='f'):
+        super(Variable, self).__init__(mode=mode, name=name)
+        self.name = name
+        self.varname.add(name)
 
+    @classmethod
+    def vars(cls, varlist=[]):
+        assert isinstance(varlist, (list, tuple)), 'Please provide a list of variable names.'
+        return [cls(v) for v in varlist]
 
-def sin(x):
-    if isinstance(x, (int, float)):
-        return np.sin(x)
-    return Function(x, f=ops._sin)
+    def forward(self, inputs, seed):
+        if self.val:
+            return self.val
 
+        assert seed is not None, 'Please provide a seed vector'
 
-def cos(x):
-    if isinstance(x, (int, float)):
-        return np.cos(x)
-    return Function(x, f=ops._cos)
+        if type(inputs) == dict and type(seed) == dict:
+            self.val = Dual(inputs.get(self.name, 0), seed.get(self.name, 0))
+        elif type(inputs) == int and type(seed) == int:
+            self.val = Dual(inputs, seed)
+        else:
+            raise ValueError(
+                f"Unsupported type {type(inputs)} for variable inputs and type {type(seed)} for seed vector")
 
+        return self.val
 
-def exp(x):
-    if isinstance(x, (int, float)):
-        return np.exp(x)
-    return Function(x, f=ops._exp)
-
-
-def log(x):
-    if isinstance(x, (int, float)):
-        return np.log(x)
-    return Function(x, f=ops._log)
+    def clear(self):
+        self.val = None
