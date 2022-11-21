@@ -84,6 +84,9 @@ class Dual():
     def __str__(self):
         return "real {}, dual {}".format(self.real, self.dual)
 
+    def __eq__(self, other):
+        return type(other) == Dual and self.real == other.real and self.dual == other.dual
+
     @classmethod
     def exp(cls, x):
         return cls(np.exp(x.real), x.dual * np.exp(x.real))
