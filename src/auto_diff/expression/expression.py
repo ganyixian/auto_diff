@@ -4,10 +4,7 @@
 # Description: autodiff functional expressions
 # Copyright 2022 Harvard University. All Rights Reserved.
 
-import numpy as np
-
-from ..dual import Dual
-from .ops import ops
+from .expression import Function
 
 
 class Expression:
@@ -100,96 +97,3 @@ class Expression:
 
     def clear(self):
         raise NotImplementedError
-
-
-class Variable(Expression):
-
-    def __init__(self, name, val=None, mode='f'):
-        super(Variable, self).__init__(mode=mode, name=name)
-        self.name = name
-        self.varname.add(name)
-
-    @classmethod
-    def vars(cls, varlist=[]):
-        assert isinstance(varlist, (list, tuple)), 'Please provide a list of variable names.'
-        return [cls(v) for v in varlist]
-
-    def forward(self, inputs, seed):
-        if self.val:
-            return self.val
-
-        assert seed is not None, 'Please provide a seed vector'
-
-        if type(inputs) == dict and type(seed) == dict:
-            self.val = Dual(inputs.get(self.name, 0), seed.get(self.name, 0))
-        elif type(inputs) == int and type(seed) == int:
-            self.val = Dual(inputs, seed)
-        else:
-            raise ValueError(
-                f"Unsupported type {type(inputs)} for variable inputs and type {type(seed)} for seed vector")
-
-        return self.val
-
-    def clear(self):
-        self.val = None
-
-
-class Function(Expression):
-
-    def __init__(self, e1, e2=None, f=None, mode='f'):
-        super(Function, self).__init__(mode=mode)
-        self.e1 = e1
-        self.e2 = e2
-        self.f = f
-        self.varname = e1.varname
-        if e2:
-            self.varname.update(e2.varname)
-
-    def forward(self, inputs, seed):
-        if self.val:
-            return self.val
-
-        res1 = self.e1.forward(inputs, seed)
-        if self.e2:
-            res2 = self.e2.forward(inputs, seed)
-            self.val = self.f(res1, res2)
-        else:
-            self.val = self.f(res1)
-
-        return self.val
-
-    def clear(self):
-        self.e1.clear()
-        if self.e2:
-            self.e2.clear()
-        self.val = None
-
-
-def tan(x):
-    if isinstance(x, (int, float)):
-        return np.tan(x)
-    return Function(x, f=ops._tan)
-
-
-def sin(x):
-    if isinstance(x, (int, float)):
-        return np.sin(x)
-    return Function(x, f=ops._sin)
-
-
-def cos(x):
-    if isinstance(x, (int, float)):
-        return np.cos(x)
-    return Function(x, f=ops._cos)
-
-
-def exp(x):
-    if isinstance(x, (int, float)):
-        return np.exp(x)
-    return Function(x, f=ops._exp)
-
-
-def log(x):
-    if isinstance(x, (int, float)):
-        return np.log(x)
-    return Function(x, f=ops._log)

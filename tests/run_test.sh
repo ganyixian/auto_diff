@@ -7,9 +7,9 @@ set -e
 # list of test cases you want to run
 tests=(
     # test_other_things_on_root_level.py
-    .expression_test.py
-    # ops_test.py
-    # dual_test.py
+    expression/expression_test.py
+    dual/ops_test.py
+    dual/dual_test.py
 )
 
 # Must add the module source path because we use `import cs107_package` in
