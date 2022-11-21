@@ -1,8 +1,8 @@
-from auto_diff.expression.function import Function
+from auto_diff.expression import Expression
 
-class TestFunction:
+class TestExpression:
 
-    def test_function_example(self):
+    def test_expression_example(self):
         """
         This is just a trivial test to check pytest, the test name need to be descriptive
         """

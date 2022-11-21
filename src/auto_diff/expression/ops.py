@@ -8,7 +8,6 @@
 import numpy as np
 
 from ..dual import Dual
-from .expression import Function
 
 """
 This module provides mathematical operations for Function evaluation. Operations include elementary functions 
@@ -40,33 +39,3 @@ class ops:
     def _log(x):
         res = Dual.log(x) if type(x) == Dual else np.log(x)
         return res
-
-
-    def sin(x):
-        if isinstance(x, (int, float)):
-            return np.sin(x)
-        return Function(x, f=ops._sin)
-
-
-    def cos(x):
-        if isinstance(x, (int, float)):
-            return np.cos(x)
-        return Function(x, f=ops._cos)
-
-
-    def tan(x):
-        if isinstance(x, (int, float)):
-            return np.tan(x)
-        return Function(x, f=ops._tan)
-
-
-    def exp(x):
-        if isinstance(x, (int, float)):
-            return np.exp(x)
-        return Function(x, f=ops._exp)
-
-
-    def log(x):
-        if isinstance(x, (int, float)):
-            return np.log(x)
-        return Function(x, f=ops._log)

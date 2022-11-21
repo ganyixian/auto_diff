@@ -5,9 +5,9 @@
 # Copyright 2022 Harvard University. All Rights Reserved.
 
 from ..dual import Dual
-from .expression import Expression
+from .function import Function
 
-class Variable(Expression):
+class Variable(Function):
 
     def __init__(self, name, val=None, mode='f'):
         super(Variable, self).__init__(mode=mode, name=name)

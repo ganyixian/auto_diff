@@ -4,7 +4,7 @@
 # Description: autodiff functional expressions
 # Copyright 2022 Harvard University. All Rights Reserved.
 
-from .expression import Function
+# from . import Function
 
 
 class Expression:
@@ -51,46 +51,31 @@ class Expression:
             raise NotImplementedError('AutoDiff only support forward mode for now')
 
     def __add__(self, other):
-        if isinstance(other, Expression):
-            return Function(self, other, (lambda x, y: x + y))
-
-        return Function(self, f=(lambda x: x + other))
+        raise NotImplementedError
 
     def __mul__(self, other):
-        if isinstance(other, Expression):
-            return Function(self, other, (lambda x, y: x * y))
-        return Function(self, f=(lambda x: x * other))
+        raise NotImplementedError
 
     __radd__ = __add__
     __rmul__ = __mul__
 
     def __sub__(self, other):
-        if isinstance(other, Expression):
-            return Function(self, other, (lambda x, y: x - y))
-        return Function(self, f=(lambda x: x - other))
+        raise NotImplementedError
 
     def __rsub__(self, other):
-        if isinstance(other, Expression):
-            return Function(other, self, (lambda x, y: x - y))
-        return Function(self, f=(lambda x: other - x))
+        raise NotImplementedError
 
     def __truediv__(self, other):
-        if isinstance(other, Expression):
-            return Function(self, other, (lambda x, y: x / y))
-        return Function(self, f=(lambda x: x / other))
+        raise NotImplementedError
 
     def __rdiv__(self, other):
-        if isinstance(other, Expression):
-            return Function(other, self, (lambda x, y: x / y))
-        return Function(self, f=(lambda x: other / x))
+        raise NotImplementedError
 
     def __pow__(self, power, modulo=None):
-        if isinstance(power, Expression):
-            return Function(self, power, (lambda a, x: a ** x))
-        return Function(self, f=(lambda a: a ** power))
+        raise NotImplementedError
 
     def __neg__(self):
-        return Function(self, f=(lambda x: -x))
+        raise NotImplementedError
 
     def forward(self, inputs, seed):
         raise NotImplementedError
