@@ -1,4 +1,4 @@
-from auto_diff.expression.function import Function
+from auto_diff.expression import Function
 
 class TestFunction:
 
