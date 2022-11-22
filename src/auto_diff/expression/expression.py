@@ -51,6 +51,11 @@ class Expression:
             # TODO: add backward mode
             raise NotImplementedError('AutoDiff only support forward mode for now')
 
+    def __eq__(self, other) -> bool:
+        return isinstance(other, Expression) and self.val == other.val and \
+            self.mode == other.mode and self.val == other.val and \
+            self.varname == other.varname
+
     def __add__(self, other):
         if isinstance(other, Expression):
             return Function(self, other, (lambda x, y: x + y))
@@ -71,8 +76,6 @@ class Expression:
         return Function(self, f=(lambda x: x - other))
 
     def __rsub__(self, other):
-        if isinstance(other, Expression):
-            return Function(other, self, (lambda x, y: x - y))
         return Function(self, f=(lambda x: other - x))
 
     def __truediv__(self, other):
@@ -80,9 +83,7 @@ class Expression:
             return Function(self, other, (lambda x, y: x / y))
         return Function(self, f=(lambda x: x / other))
 
-    def __rdiv__(self, other):
-        if isinstance(other, Expression):
-            return Function(other, self, (lambda x, y: x / y))
+    def __rtruediv__(self, other):
         return Function(self, f=(lambda x: other / x))
 
     def __pow__(self, power, modulo=None):
@@ -93,26 +94,31 @@ class Expression:
     def __neg__(self):
         return Function(self, f=(lambda x: -x))
 
+    @staticmethod
     def sin(x):
         if isinstance(x, (int, float)):
             return np.sin(x)
         return Function(x, f=ops._sin)
 
+    @staticmethod
     def cos(x):
         if isinstance(x, (int, float)):
             return np.cos(x)
         return Function(x, f=ops._cos)
 
+    @staticmethod
     def tan(x):
         if isinstance(x, (int, float)):
             return np.tan(x)
         return Function(x, f=ops._tan)
 
+    @staticmethod
     def exp(x):
         if isinstance(x, (int, float)):
             return np.exp(x)
         return Function(x, f=ops._exp)
 
+    @staticmethod
     def log(x):
         if isinstance(x, (int, float)):
             return np.log(x)
@@ -149,7 +155,19 @@ class Function(Expression):
             self.e2.clear()
         self.val = None
 
-class Variable(Function):
+    def __eq__(self, other):
+        if type(other) != Function:
+            return False
+        e_same = self.e1 == other.e1 and self.e1 == other.e1
+        if self.f or other.f:
+            func_same = self.f.__code__.co_code == other.f.__code__.co_code
+        else: 
+            func_same = True
+        expression_eq = super().__eq__(other)
+
+        return e_same and func_same and expression_eq
+
+class Variable(Expression):
 
     def __init__(self, name, val=None, mode='f'):
         super(Variable, self).__init__(mode=mode, name=name)
@@ -179,3 +197,9 @@ class Variable(Function):
 
     def clear(self):
         self.val = None
+    
+    def __eq__(self, other):
+        if type(other) != Variable:
+            return False
+        
+        return super().__eq__(other) and self.name == other.name
