@@ -6,7 +6,7 @@
 import numpy as np
 
 from ..dual import Dual
-from .ops import ops
+from . import ops
 
 class Expression:
     def __init__(self, mode='f', name=None):
