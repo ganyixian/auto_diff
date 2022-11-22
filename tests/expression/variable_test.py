@@ -41,8 +41,11 @@ class TestVariable:
         v1 = Variable('a')
         with pytest.raises(Exception):
             v1.forward(1, {})
-    # def test_variable_forward_with_val(self):
-    #     v1 = Variable('a')
-    #     result = v1.forward({},{})
 
-    #     assert result == 1
+    def test_variable_forward_with_val(self):
+        v1 = Variable('a')
+        result = v1.forward({'a': 1},{'a': 2})
+        result = v1.forward({},{})
+
+        assert result == Dual(1, 2)
+        

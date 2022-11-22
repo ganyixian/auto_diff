@@ -12,9 +12,6 @@ import numpy as np
 # Dual number is the underlying data structure for forward mode AutoDiff
 # """
 
-__all__ = ['Dual']
-
-
 class Dual():
     def __init__(self, real=0, dual=0):
         self.real = real
@@ -106,9 +103,3 @@ class Dual():
     @classmethod
     def tan(cls, x):
         return cls(np.tan(x.real), x.dual / np.pow(np.cos(x.real), 2))
-
-
-if __name__ == '__main__':
-    d = Dual(1, 2)
-    for a in d:
-        print(a)
