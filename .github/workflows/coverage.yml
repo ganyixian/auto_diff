@@ -9,9 +9,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
 
     steps:
       - uses: actions/checkout@v3
@@ -29,4 +26,7 @@ jobs:
         run: |
           cd tests
           COVERAGE_SCORE=$(./check_coverage.sh pytest | awk '$1 == "TOTAL" {print $NF+0}')
-          echo "Coverage is $COVERAGE_SCORE"
+          if [ "$COVERAGE_SCORE" < "90" ] 
+            echo "Coverage is $COVERAGE_SCORE"
+            then exit 1
+          fi
