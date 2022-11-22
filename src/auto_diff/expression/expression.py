@@ -3,8 +3,6 @@
 # File       : expression.py
 # Description: autodiff functional expressions
 # Copyright 2022 Harvard University. All Rights Reserved.
-import numpy as np
-
 from ..dual import Dual
 from . import ops
 

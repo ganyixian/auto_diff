@@ -10,5 +10,5 @@
 .bash_history
 **/.cache
 **/.local
-*/.coverage
+.coverage
 */cov.xml
