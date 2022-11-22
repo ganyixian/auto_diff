@@ -164,7 +164,7 @@ class Function(Expression):
 
 class Variable(Expression):
 
-    def __init__(self, name, val=None, mode='f'):
+    def __init__(self, name, mode='f'):
         super(Variable, self).__init__(mode=mode, name=name)
         self.name = name
         self.varname.add(name)

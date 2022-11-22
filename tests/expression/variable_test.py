@@ -6,7 +6,7 @@ from auto_diff.expression import Variable
 class TestVariable:
 
     def test_variable_init(self):
-        v1 = Variable('a', val = 1)
+        v1 = Variable('a')
 
     def test_variable_vars(self):
         varlist = ['a', 'b', 'c']
@@ -17,13 +17,13 @@ class TestVariable:
         assert result == expected_result
     
     def test_variable_eq(self):
-        v1 = Variable('a', val = 1)
-        result = v1 == Variable('a', val = 1)
+        v1 = Variable('a')
+        result = v1 == Variable('a')
 
         assert result
     
     def test_variable_eq_invalid(self):
-        v1 = Variable('a', val = 1)
+        v1 = Variable('a')
         result = v1 == 1
 
         assert result == False

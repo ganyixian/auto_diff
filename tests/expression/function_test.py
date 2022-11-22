@@ -1,6 +1,7 @@
 import pytest
 
-from auto_diff.expression import Function, Variable
+from auto_diff.dual.dual import Dual
+from auto_diff.expression import Expression, Function, Variable
 
 class TestFunctionUnit:
 
@@ -37,13 +38,26 @@ class TestFunctionUnit:
         assert (f1 == 1) == False
     
     def test_function_forward_e1(self):
-        f1 = Variable('a') + Variable('b')
+        f1 = Variable('a') ** 2
+        result = f1.forward({'a': 1} ,{'a': 1})
+        assert result == Dual(1, 2)
 
-        f2 = Function(Variable('a'), Variable('b'), (lambda x, y: x + y))
+    def test_function_forward_e1_e2_1(self):
+        f1 = Variable('a') * Variable('b')
+        result = f1.forward({'a': 1, 'b': 2} ,{'a': 0, 'b': 1})
+        assert result == Dual(2, 1)
 
-    def test_function_forward_e1_e2(self):
-        f1 = Function(Variable('a'))
-        f2 = Function(Variable('a'), Variable('b'))
+    def test_function_forward_e1_e2_2(self):
+        f1 = Variable('a') * Variable('b')
+        result = f1.forward({'a': 1, 'b': 2} ,{'a': 1, 'b': 1})
+        assert result == Dual(2, 3)
+    
+    def test_function_forward_e1_e2_2(self):
+        f1 = Variable('a') * Variable('b')
+        result = f1.forward({'a': 1, 'b': 2} ,{'a': 1, 'b': 1})
+        result = f1.forward({'a': 1, 'b': 2} ,{'a': 1, 'b': 1})
+
+        assert result == Dual(2, 3)
 
 
 
