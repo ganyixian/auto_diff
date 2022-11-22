@@ -56,7 +56,7 @@ class Dual():
         else:
             raise TypeError("True Division operation not supported for type DualNumber and {}".format(type(other)))
 
-    def __rdiv__(self, other):
+    def __rtruediv__(self, other):
         assert type(other) in [int, float]
 
         return Dual(other / self.real, - other * self.dual / self.real ** 2)

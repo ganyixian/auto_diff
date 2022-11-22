@@ -72,14 +72,14 @@ class TestDual:
         with pytest.raises(Exception):
             x / s
 
-    def test_dual_rdiv(self):
+    def test_dual_rtruediv(self):
         x = Dual(2, 1)
         x2 = Dual(1, 1)
         y1 = 1
         y2 = 0.5
         s = "string"
-        #assert y1 / x == Dual(2, 1)
-        #assert y2 / x == Dual(4, 2)
+        assert y1 / x == Dual(0.5, -0.25)
+        assert y2 / x == Dual(0.25, -0.125)
         assert x2 / x == Dual(0.5, 0.25)
         with pytest.raises(Exception):
             x / s
