@@ -88,7 +88,6 @@ class Dual():
         return type(other) == Dual and np.isclose(self.real, other.real) and np.isclose(self.dual, other.dual)
 
 
-
     @classmethod
     def exp(cls, x):
         return cls(np.exp(x.real), x.dual * np.exp(x.real))
