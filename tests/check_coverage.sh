@@ -18,6 +18,10 @@ if [[ ${tool} == 'coverage' ]]; then
     coverage report -m
 elif [[ ${tool} == 'pytest' ]]; then
     # generate coverage reports with pytest in one go
+    ./run_tests.sh pytest --cov=auto_diff"${@}"
+    # py.test auto_diff 
+elif [[ ${tool} == 'pytest-xml' ]]; then
+    # generate xml coverage reports with pytest in one go
     ./run_tests.sh pytest --cov=auto_diff --cov-report xml:cov.xml"${@}"
     # py.test auto_diff 
 else
