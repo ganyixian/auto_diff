@@ -77,9 +77,12 @@ class TestDual:
         x2 = Dual(1, 1)
         y1 = 1
         y2 = 0.5
+        s = "string"
         #assert y1 / x == Dual(2, 1)
         #assert y2 / x == Dual(4, 2)
         assert x2 / x == Dual(0.5, 0.25)
+        with pytest.raises(Exception):
+            x / s
 
     def test_dual_pow(self):
         x = Dual(2, 1)
@@ -104,7 +107,7 @@ class TestDual:
 
     def test_dual_str(self):
         x = Dual(2, 1)
-        assert str(x) == "real 2, dual 1"
+        self.assertEqual(str(x), "real 2, dual 1")
 
     def test_dual_str(self):
         x = Dual(2, 3.33)

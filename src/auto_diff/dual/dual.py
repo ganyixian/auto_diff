@@ -109,7 +109,7 @@ class Dual():
         return cls(np.tan(x.real), x.dual / np.power(np.cos(x.real), 2))
 
 
-if __name__ == '__main__':
-    d = Dual(1, 2)
-    for a in d:
-        print(a)
+#if __name__ == '__main__':
+#    d = Dual(1, 2)
+#    for a in d:
+#        print(a)

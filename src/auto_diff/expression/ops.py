@@ -39,3 +39,4 @@ class ops:
     def _log(x):
         res = Dual.log(x) if type(x) == Dual else np.log(x)
         return res
+
