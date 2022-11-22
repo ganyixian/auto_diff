@@ -85,7 +85,9 @@ class Dual():
         return "real {}, dual {}".format(self.real, self.dual)
 
     def __eq__(self, other):
-        return type(other) == Dual and self.real == other.real and self.dual == other.dual
+        return type(other) == Dual and np.isclose(self.real, other.real) and np.isclose(self.dual, other.dual)
+
+
 
     @classmethod
     def exp(cls, x):
@@ -105,7 +107,7 @@ class Dual():
 
     @classmethod
     def tan(cls, x):
-        return cls(np.tan(x.real), x.dual / np.pow(np.cos(x.real), 2))
+        return cls(np.tan(x.real), x.dual / np.power(np.cos(x.real), 2))
 
 
 if __name__ == '__main__':
