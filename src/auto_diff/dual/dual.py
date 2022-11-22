@@ -56,7 +56,7 @@ class Dual():
         else:
             raise TypeError("True Division operation not supported for type DualNumber and {}".format(type(other)))
 
-    def __rdiv__(self, other):
+    def __rtruediv__(self, other):
         assert type(other) in [int, float]
 
         return Dual(other / self.real, - other * self.dual / self.real ** 2)
@@ -85,7 +85,8 @@ class Dual():
         return "real {}, dual {}".format(self.real, self.dual)
 
     def __eq__(self, other):
-        return type(other) == Dual and np.isclose(self.real,other.real) and np.isclose(self.dual,other.dual)
+        return type(other) == Dual and np.isclose(self.real, other.real) and np.isclose(self.dual, other.dual)
+
 
     @classmethod
     def exp(cls, x):
@@ -105,10 +106,10 @@ class Dual():
 
     @classmethod
     def tan(cls, x):
-        return cls(np.tan(x.real), x.dual / np.pow(np.cos(x.real), 2))
+        return cls(np.tan(x.real), x.dual / np.power(np.cos(x.real), 2))
 
 
-if __name__ == '__main__':
-    d = Dual(1, 2)
-    for a in d:
-        print(a)
+#if __name__ == '__main__':
+#    d = Dual(1, 2)
+#    for a in d:
+#        print(a)
