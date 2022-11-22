@@ -1,4 +1,3 @@
-from .dual import Dual
-from .expression import Variable
+from .expression import Variable, Expression
 
 __all__ = ['Expression','Variable']
