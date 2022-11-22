@@ -103,4 +103,4 @@ class Dual():
 
     @classmethod
     def tan(cls, x):
-        return cls(np.tan(x.real), x.dual / np.pow(np.cos(x.real), 2))
+        return cls(np.tan(x.real), x.dual / np.power(np.cos(x.real), 2))

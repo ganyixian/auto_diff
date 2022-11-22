@@ -96,32 +96,27 @@ class Expression:
 
     @staticmethod
     def sin(x):
-        if isinstance(x, (int, float)):
-            return np.sin(x)
+        assert isinstance(x, Expression)
         return Function(x, f=ops._sin)
 
     @staticmethod
     def cos(x):
-        if isinstance(x, (int, float)):
-            return np.cos(x)
+        assert isinstance(x, Expression)
         return Function(x, f=ops._cos)
 
     @staticmethod
     def tan(x):
-        if isinstance(x, (int, float)):
-            return np.tan(x)
+        assert isinstance(x, Expression)
         return Function(x, f=ops._tan)
 
     @staticmethod
     def exp(x):
-        if isinstance(x, (int, float)):
-            return np.exp(x)
+        assert isinstance(x, Expression)
         return Function(x, f=ops._exp)
 
     @staticmethod
     def log(x):
-        if isinstance(x, (int, float)):
-            return np.log(x)
+        assert isinstance(x, Expression)
         return Function(x, f=ops._log)
 
 

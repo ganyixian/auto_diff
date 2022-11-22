@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from auto_diff.expression import Expression, Variable, Function, ops
 
@@ -148,8 +149,8 @@ class TestExpressionIntegration:
     def test_expression_sin_not_expression(self):
         e1 = np.pi/2.
 
-        result = Expression.sin(e1)
-        assert result == np.sin(np.pi/2.)
+        with pytest.raises(Exception):
+            Expression.sin(e1)
 
     def test_expression_cos_expression(self):
         e1 = Variable('a', val=1)
@@ -161,8 +162,8 @@ class TestExpressionIntegration:
     def test_expression_cos_not_expression(self):
         e1 = np.pi/2.
 
-        result = Expression.cos(e1)
-        assert result == np.cos(np.pi/2.)
+        with pytest.raises(Exception):
+            Expression.cos(e1)
     
     def test_expression_tan_expression(self):
         e1 = Variable('a', val=1)
@@ -174,8 +175,8 @@ class TestExpressionIntegration:
     def test_expression_tan_not_expression(self):
         e1 = np.pi/2.
 
-        result = Expression.tan(e1)
-        assert result == np.tan(np.pi/2.)
+        with pytest.raises(Exception):
+            Expression.tan(e1)
     
     def test_expression_exp_expression(self):
         e1 = Variable('a', val=1)
@@ -187,8 +188,8 @@ class TestExpressionIntegration:
     def test_expression_exp_not_expression(self):
         e1 = np.pi/2.
 
-        result = Expression.exp(e1)
-        assert result == np.exp(np.pi/2.)
+        with pytest.raises(Exception):
+            Expression.exp(e1)
     
     def test_expression_log_expression(self):
         e1 = Variable('a', val=1)
@@ -200,5 +201,5 @@ class TestExpressionIntegration:
     def test_expression_log_not_expression(self):
         e1 = np.pi/2.
 
-        result = Expression.log(e1)
-        assert result == np.log(np.pi/2.)
+        with pytest.raises(Exception):
+            Expression.log(e1)
