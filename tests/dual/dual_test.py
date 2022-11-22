@@ -97,7 +97,10 @@ class TestDual:
         x = Dual(2, 1)
         assert len(x) == 1
 
-    #def test_dual_iter(self):
+    def test_dual_iter(self):
+        for x in Dual(0, 1):
+            assert x == Dual(0, 1)
+
 
     def test_dual_str(self):
         x = Dual(2, 1)
