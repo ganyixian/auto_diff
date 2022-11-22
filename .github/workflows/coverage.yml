@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [opened]
 
-    cov_score=$( coverage37.log)
+    # cov_score=$( coverage37.log)
 
 jobs:
   build:
