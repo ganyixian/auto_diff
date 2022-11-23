@@ -26,7 +26,8 @@ jobs:
         run: |
           cd tests
           COVERAGE_SCORE=$(./check_coverage.sh pytest | awk '$1 == "TOTAL" {print $NF+0}')
-          if [ "$COVERAGE_SCORE" < "90" ] 
+          COVERAGE_SCORE=$(($COVERAGE_SCORE+0))
+          if [[ "$COVERAGE_SCORE" -lt "90" ]]; then 
             echo "Coverage is $COVERAGE_SCORE"
-            then exit 1
+            exit 1
           fi
