@@ -149,3 +149,4 @@ cython_debug/
 .Rhistory
 .bash_history
 **/.local
+.ipynb_checkpoints
