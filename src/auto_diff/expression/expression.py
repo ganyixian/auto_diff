@@ -22,8 +22,6 @@ class Expression:
                     seed = {k: seed for k in self.varname}
 
                 res = self.forward(inputs, seed)
-                if isinstance(res, (int, float)):
-                    res = [res]
 
                 y = [v.real for v in res]
                 dy = [v.dual for v in res]
