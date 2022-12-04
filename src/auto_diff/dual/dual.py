@@ -142,7 +142,20 @@ def vec_dec(op):
     @vec_dec
     def tan(x):
         return Dual(np.tan(x.real), x.dual / np.power(np.cos(x.real), 2))
+    
+    @staticmethod
+    @vec_dec
+    def arcsin(x):
+        return Dual(np.arcsin(x.real), x.dual /(1-x.real*x.real)**0.5)
 
+    @staticmethod
+    @vec_dec
+    def arccos(x):
+        return Dual(np.arccos(x.real), -x.dual /(1-x.real*x.real)**0.5)
+    @staticmethod
+    @vec_dec
+    def arctan(x):
+        return Dual(np.arctan(x.real), x.dual /(1+x.real*x.real))
 
 class DualVector(Dual):
     def __init__(self, real=[], dual=[], vec=None):

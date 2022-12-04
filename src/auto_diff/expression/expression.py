@@ -185,6 +185,21 @@ class Expression:
     def tan(x):
         assert isinstance(x, Expression)
         return Function(x, f=ops._tan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / np.cos(x) ** 2)]))
+#new implemented inverse trig functions. 
+    @staticmethod
+    def arcsin(x):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._arcsin, mode=x.mode, node=Node([x.node], [(lambda x: 1/(1-x*x)**0.5)]))
+    
+    @staticmethod
+    def arccos(x):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._arccos, mode=x.mode, node=Node([x.node], [(lambda x: -1/(1-x*x)**0.5)]))
+
+    @staticmethod
+    def arctan(x):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._cos, mode=x.mode, node=Node([x.node], [(lambda x: 1/(1+x*x))]))
 
     @staticmethod
     def exp(x):

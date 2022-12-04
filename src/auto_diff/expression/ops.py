@@ -29,6 +29,17 @@ def _tan(x):
     res = Dual.tan(x) if isinstance(x, Dual) else np.tan(x)
     return res
 
+def _arcsin(x):
+    res = Dual.arcsin(x) if isinstance(x, Dual) else np.arcsin(x)
+    return res
+
+def _arccos(x):
+    res = Dual.arccos(x) if isinstance(x, Dual) else np.arccos(x)
+    return res
+
+def _arctan(x):
+    res = Dual.arctan(x) if isinstance(x, Dual) else np.arctan(x)
+    return res
 
 def _exp(x):
     res = Dual.exp(x) if isinstance(x, Dual) else np.exp(x)
