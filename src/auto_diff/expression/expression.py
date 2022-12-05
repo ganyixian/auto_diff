@@ -201,6 +201,22 @@ class Expression:
         assert isinstance(x, Expression)
         return Function(x, f=ops._cos, mode=x.mode, node=Node([x.node], [(lambda x: 1/(1+x*x))]))
 
+#new implemented hyperbolic functions. 
+    @staticmethod
+    def sinh(x):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._sinh, mode=x.mode, node=Node([x.node], [(lambda x: (np.exp(x) + np.exp(-x))/2)]))
+
+    @staticmethod
+    def cosh(x):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._cosh, mode=x.mode, node=Node([x.node], [(lambda x: (np.exp(x) - np.exp(-x))/2)]))
+
+    @staticmethod
+    def tanh(x):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1-(np.tanh(x))**2)])) #to update if not allowed t use np.tanh. 
+
     @staticmethod
     def exp(x):
         assert isinstance(x, Expression)

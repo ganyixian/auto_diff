@@ -31,7 +31,7 @@ def vec_dec(op):
     return func
 
 
- class Dual():
+class Dual():
     def __init__(self, real=0, dual=0):
         self.real = real
         self.dual = dual
@@ -152,10 +152,26 @@ def vec_dec(op):
     @vec_dec
     def arccos(x):
         return Dual(np.arccos(x.real), -x.dual /(1-x.real*x.real)**0.5)
+
     @staticmethod
     @vec_dec
     def arctan(x):
         return Dual(np.arctan(x.real), x.dual /(1+x.real*x.real))
+
+    @staticmethod #(sinh, cosh, tanh)
+    @vec_dec
+    def sinh(x):
+        return Dual((np.exp(x.real) - np.exp(-x.real))/2, x.dual * (np.exp(x.real) + np.exp(-x.real))/2)
+    
+    @staticmethod 
+    @vec_dec
+    def cosh(x):
+        return Dual((np.exp(x.real) + np.exp(-x.real))/2, x.dual * (np.exp(x.real) - np.exp(-x.real))/2)
+    
+    @staticmethod 
+    @vec_dec
+    def tanh(x):
+        return Dual((np.exp(x.real) - np.exp(-x.real))/(np.exp(x.real) + np.exp(-x.real)), x.dual * (1-((np.exp(x.real) - np.exp(-x.real))**2)/(((np.exp(x.real) + np.exp(-x.real))**2))))
 
 class DualVector(Dual):
     def __init__(self, real=[], dual=[], vec=None):

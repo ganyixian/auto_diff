@@ -41,6 +41,20 @@ def _arctan(x):
     res = Dual.arctan(x) if isinstance(x, Dual) else np.arctan(x)
     return res
 
+def _sinh(x):
+    res = Dual.sinh(x) if isinstance(x, Dual) else np.sinh(x) #not sure if we are allowed to use np.sinh, if so, maybe update the dual class as well 
+    return res
+
+
+def _cosh(x):
+    res = Dual.cosh(x) if isinstance(x, Dual) else np.cosh(x)
+    return res
+
+
+def _tanh(x):
+    res = Dual.tanh(x) if isinstance(x, Dual) else np.tanh(x)
+    return res
+
 def _exp(x):
     res = Dual.exp(x) if isinstance(x, Dual) else np.exp(x)
     return res
