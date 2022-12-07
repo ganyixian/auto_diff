@@ -168,6 +168,12 @@ class Expression:
         return Function(self, f=(lambda a: a ** power), mode=self.mode,
                         node=Node([self.node], [(lambda x: power * x ** (power - 1))]))
 
+    def __rpow__(self, other, modulo=None):
+        if isinstance(other, Expression):
+            return other.__power__(self)
+        return Function(self, f=(lambda a: other ** a), mode=self.mode,
+                        node=Node([self.node], [(lambda x: other ** x * np.log(other))]))
+
     def __neg__(self):
         return Function(self, f=(lambda x: -x), mode=self.mode, node=Node([self.node], [(lambda x: -1)]))
 
@@ -221,7 +227,7 @@ class Expression:
     @staticmethod
     def sigmoid(x):
         assert isinstance(x, Expression)
-        sig = 1 / (1 + 1/(np.exp(x)))
+        sig = 1 / (1 + Expression.exp(-x))
         return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1 - sig))])) 
 
     @staticmethod
@@ -237,7 +243,7 @@ class Expression:
     @staticmethod
     def log_base(x, base):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._log_base, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (x * np.log(base)))]))
+        return Function(x, f= (lambda x : ops._log_base(x, base)), mode=x.mode, node=Node([x.node], [(lambda x: 1 / (x * np.log(base)))]))
 
     @staticmethod
     def sqrt(x):
