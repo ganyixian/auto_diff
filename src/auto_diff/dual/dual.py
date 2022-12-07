@@ -127,6 +127,11 @@ class Dual():
     @vec_dec
     def log(x):
         return Dual(np.log(x.real), x.dual / x.real)
+    
+    @staticmethod
+    @vec_dec
+    def log_base(x, base):
+        return Dual(np.log(x.real) / np.log(base), x.dual / (x.real * np.log(base)))
 
     @staticmethod
     @vec_dec
