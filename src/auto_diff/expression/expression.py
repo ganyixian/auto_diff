@@ -199,7 +199,7 @@ class Expression:
     @staticmethod
     def arctan(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._cos, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 + x * x))]))
+        return Function(x, f=ops._arctan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 + x * x))]))
 
 #new implemented hyperbolic functions. 
     @staticmethod
@@ -221,7 +221,7 @@ class Expression:
     @staticmethod
     def sigmoid(x):
         assert isinstance(x, Expression)
-        sig = 1 / (1 + np.exp(-x))
+        sig = 1 / (1 + 1/(np.exp(x)))
         return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1 - sig))])) 
 
     @staticmethod
