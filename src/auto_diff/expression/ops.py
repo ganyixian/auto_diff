@@ -63,6 +63,10 @@ def _log(x):
     res = Dual.log(x) if isinstance(x, Dual) else np.log(x)
     return res
 
+def _log_base(x, base):
+    res = Dual.log_base(x, base) if isinstance(x, Dual) else np.log(x)/np.log(base)
+    return res
+
 def _sigmoid(x):
     sig = 1/(1 + np.exp(-x))
     res = Dual.sigmoid(x) if isinstance(x, Dual) else sig

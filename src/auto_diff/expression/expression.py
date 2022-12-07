@@ -1,4 +1,4 @@
-e#!/usr/bin/env python3
+#!/usr/bin/env python3
 # Project    : AutoDiff
 # File       : expression.py
 # Description: autodiff functional expressions
@@ -233,6 +233,11 @@ class Expression:
     def log(x):
         assert isinstance(x, Expression)
         return Function(x, f=ops._log, mode=x.mode, node=Node([x.node], [(lambda x: 1 / x)]))
+
+    @staticmethod
+    def log_base(x, base):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._log_base, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (x * np.log(base)))]))
 
     @staticmethod
     def sqrt(x):
