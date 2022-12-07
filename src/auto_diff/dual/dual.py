@@ -112,6 +112,9 @@ class Dual():
     def __eq__(self, other):
         return type(other) == Dual and np.isclose(self.real, other.real) and np.isclose(self.dual, other.dual)
 
+    def __ne__(self, other):
+        return type(other) != Dual or not np.isclose(self.real, other.real) or not np.isclose(self.dual, other.dual)
+
     def get_real(self):
         return self.real
 
