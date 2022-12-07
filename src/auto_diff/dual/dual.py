@@ -97,6 +97,15 @@ class Dual():
         a, b = self.real, self.dual
         return Dual(a ** c, a ** c * (d * np.log(a) + b * c / a))
     
+    @vec_dec
+    def __rpow__(self, other, modulo=None):
+        if type(other) in [float, int]:
+            c = other
+        else:
+            raise TypeError("Power operation not supported for type DualNumber and {}".format(type(other)))
+        a, b = self.real, self.dual
+        return Dual(c ** a, np.log(c) * c ** a * b)
+
     __radd__ = __add__
     __rmul__ = __mul__
 

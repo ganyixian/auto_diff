@@ -68,8 +68,7 @@ def _log_base(x, base):
     return res
 
 def _sigmoid(x):
-    sig = 1/(1 + np.exp(-x))
-    res = Dual.sigmoid(x) if isinstance(x, Dual) else sig
+    res = Dual.sigmoid(x) if isinstance(x, Dual) else 1/(1 + np.exp(-x))
     return res
 
 def _sqrt(x):
