@@ -96,7 +96,7 @@ class Dual():
 
         a, b = self.real, self.dual
         return Dual(a ** c, a ** c * (d * np.log(a) + b * c / a))
-
+    
     __radd__ = __add__
     __rmul__ = __mul__
 
@@ -146,32 +146,38 @@ class Dual():
     @staticmethod
     @vec_dec
     def arcsin(x):
-        return Dual(np.arcsin(x.real), x.dual /(1-x.real*x.real)**0.5)
+        return Dual(np.arcsin(x.real), x.dual /(1 - x.real * x.real)**0.5)
 
     @staticmethod
     @vec_dec
     def arccos(x):
-        return Dual(np.arccos(x.real), -x.dual /(1-x.real*x.real)**0.5)
+        return Dual(np.arccos(x.real), - x.dual /(1 - x.real * x.real)**0.5)
 
     @staticmethod
     @vec_dec
     def arctan(x):
-        return Dual(np.arctan(x.real), x.dual /(1+x.real*x.real))
+        return Dual(np.arctan(x.real), x.dual /(1 + x.real * x.real))
 
     @staticmethod #(sinh, cosh, tanh)
     @vec_dec
     def sinh(x):
-        return Dual((np.exp(x.real) - np.exp(-x.real))/2, x.dual * (np.exp(x.real) + np.exp(-x.real))/2)
+        return Dual(np.sinh(x.real), x.dual * np.cosh(x.real))
     
     @staticmethod 
     @vec_dec
     def cosh(x):
-        return Dual((np.exp(x.real) + np.exp(-x.real))/2, x.dual * (np.exp(x.real) - np.exp(-x.real))/2)
+        return Dual(np.cosh(x.real), x.dual * np.sinh(x.real))
     
     @staticmethod 
     @vec_dec
     def tanh(x):
-        return Dual((np.exp(x.real) - np.exp(-x.real))/(np.exp(x.real) + np.exp(-x.real)), x.dual * (1-((np.exp(x.real) - np.exp(-x.real))**2)/(((np.exp(x.real) + np.exp(-x.real))**2))))
+        return Dual(np.tanh(x.real), x.dual * (1 - (np.tanh(x.real))**2))
+
+    @staticmethod 
+    @vec_dec
+    def sigmoid(x):
+        sig = 1/(1 + np.exp(-x.real))
+        return Dual(sig, x.dual * (sig * (1-sig)))
 
 class DualVector(Dual):
     def __init__(self, real=[], dual=[], vec=None):

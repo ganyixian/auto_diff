@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+e#!/usr/bin/env python3
 # Project    : AutoDiff
 # File       : expression.py
 # Description: autodiff functional expressions
@@ -205,17 +205,24 @@ class Expression:
     @staticmethod
     def sinh(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._sinh, mode=x.mode, node=Node([x.node], [(lambda x: (np.exp(x) + np.exp(-x))/2)]))
+        return Function(x, f=ops._sinh, mode=x.mode, node=Node([x.node], [(lambda x: (np.cosh(x)))]))
 
     @staticmethod
     def cosh(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._cosh, mode=x.mode, node=Node([x.node], [(lambda x: (np.exp(x) - np.exp(-x))/2)]))
+        return Function(x, f=ops._cosh, mode=x.mode, node=Node([x.node], [(lambda x: (np.sinh(x)))]))
 
     @staticmethod
     def tanh(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1-(np.tanh(x))**2)])) #to update if not allowed t use np.tanh. 
+        return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1-(np.tanh(x))**2)])) 
+
+#new implemented standard logistic function.
+    @staticmethod
+    def sigmoid(x):
+        assert isinstance(x, Expression)
+        sig = 1/(1 + np.exp(-x))
+        return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1-sig))])) 
 
     @staticmethod
     def exp(x):

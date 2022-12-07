@@ -42,7 +42,7 @@ def _arctan(x):
     return res
 
 def _sinh(x):
-    res = Dual.sinh(x) if isinstance(x, Dual) else np.sinh(x) #not sure if we are allowed to use np.sinh, if so, maybe update the dual class as well 
+    res = Dual.sinh(x) if isinstance(x, Dual) else np.sinh(x)
     return res
 
 
@@ -62,4 +62,9 @@ def _exp(x):
 
 def _log(x):
     res = Dual.log(x) if isinstance(x, Dual) else np.log(x)
+    return res
+
+def _sigmoid(x):
+    sig = 1/(1 + np.exp(-x))
+    res = Dual.sigmoid(x) if isinstance(x, Dual) else sig
     return res
