@@ -189,17 +189,17 @@ class Expression:
     @staticmethod
     def arcsin(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._arcsin, mode=x.mode, node=Node([x.node], [(lambda x: 1/(1-x*x)**0.5)]))
+        return Function(x, f=ops._arcsin, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 - x * x) ** 0.5)]))
     
     @staticmethod
     def arccos(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._arccos, mode=x.mode, node=Node([x.node], [(lambda x: -1/(1-x*x)**0.5)]))
+        return Function(x, f=ops._arccos, mode=x.mode, node=Node([x.node], [(lambda x: -1 / (1 - x * x) ** 0.5)]))
 
     @staticmethod
     def arctan(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._cos, mode=x.mode, node=Node([x.node], [(lambda x: 1/(1+x*x))]))
+        return Function(x, f=ops._cos, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 + x * x))]))
 
 #new implemented hyperbolic functions. 
     @staticmethod
@@ -215,14 +215,14 @@ class Expression:
     @staticmethod
     def tanh(x):
         assert isinstance(x, Expression)
-        return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1-(np.tanh(x))**2)])) 
+        return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1 - (np.tanh(x)) ** 2)])) 
 
 #new implemented standard logistic function.
     @staticmethod
     def sigmoid(x):
         assert isinstance(x, Expression)
-        sig = 1/(1 + np.exp(-x))
-        return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1-sig))])) 
+        sig = 1 / (1 + np.exp(-x))
+        return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1 - sig))])) 
 
     @staticmethod
     def exp(x):
@@ -234,6 +234,10 @@ class Expression:
         assert isinstance(x, Expression)
         return Function(x, f=ops._log, mode=x.mode, node=Node([x.node], [(lambda x: 1 / x)]))
 
+    @staticmethod
+    def sqrt(x):
+        assert isinstance(x, Expression)
+        return Function(x, f=ops._sqrt, mode=x.mode, node=Node([x.node], [(lambda x: 0.5 * (x ** -0.5))]))
 
 class Function(Expression):
     def __init__(self, e1, e2=None, f=None, mode='f', node=None):

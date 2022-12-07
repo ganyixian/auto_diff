@@ -146,12 +146,12 @@ class Dual():
     @staticmethod
     @vec_dec
     def arcsin(x):
-        return Dual(np.arcsin(x.real), x.dual /(1 - x.real * x.real)**0.5)
+        return Dual(np.arcsin(x.real), x.dual /np.power(1 - x.real * x.real,0.5))
 
     @staticmethod
     @vec_dec
     def arccos(x):
-        return Dual(np.arccos(x.real), - x.dual /(1 - x.real * x.real)**0.5)
+        return Dual(np.arccos(x.real), - x.dual /np.power(1 - x.real * x.real,0.5))
 
     @staticmethod
     @vec_dec
@@ -171,13 +171,18 @@ class Dual():
     @staticmethod 
     @vec_dec
     def tanh(x):
-        return Dual(np.tanh(x.real), x.dual * (1 - (np.tanh(x.real))**2))
+        return Dual(np.tanh(x.real), x.dual * (1 - np.power(np.tanh(x.real),2)))
 
     @staticmethod 
     @vec_dec
     def sigmoid(x):
         sig = 1/(1 + np.exp(-x.real))
         return Dual(sig, x.dual * (sig * (1-sig)))
+
+    @staticmethod 
+    @vec_dec
+    def sqrt(x):
+        return Dual(np.sqrt(x.real), x.dual * (0.5 * np.power(x.real,-0.5)))
 
 class DualVector(Dual):
     def __init__(self, real=[], dual=[], vec=None):

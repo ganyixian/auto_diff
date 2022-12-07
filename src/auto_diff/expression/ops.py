@@ -45,7 +45,6 @@ def _sinh(x):
     res = Dual.sinh(x) if isinstance(x, Dual) else np.sinh(x)
     return res
 
-
 def _cosh(x):
     res = Dual.cosh(x) if isinstance(x, Dual) else np.cosh(x)
     return res
@@ -67,4 +66,8 @@ def _log(x):
 def _sigmoid(x):
     sig = 1/(1 + np.exp(-x))
     res = Dual.sigmoid(x) if isinstance(x, Dual) else sig
+    return res
+
+def _sqrt(x):
+    res = Dual.sqrt(x) if isinstance(x, Dual) else np.sqrt(x)
     return res
