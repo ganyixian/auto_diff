@@ -21,8 +21,8 @@ def vec_dec(op):
                 assert len(d1) == len(d2), f'operands length mismatch, found {len(d1)} and {len(d2)}.'
                 res_list = [op(x1, x2) for x1, x2 in zip(d1, d2)]
             else:
-            res_list = [op(x) for x in d1.dual_vec]
-            res = DualVector(vec=res_list)
+                res_list = [op(x) for x in d1.dual_vec]
+                res = DualVector(vec=res_list)
         else:
             res = op(d1, d2) if d2 is not None else op(d1)
 
