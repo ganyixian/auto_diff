@@ -15,23 +15,22 @@ import numpy as np
 def vec_dec(op):
     def func(d1, d2=None):
         if isinstance(d1, DualVector):
-            if d2 is not None and type(d2) in [int, float, Dual]:
-                res_list = [op(x, d2) for x in d1.dual_vec]
-            elif d2 is not None:
-                assert len(d1) == len(d2), f'operands length mismatch, found {len(d1)} and {len(d2)}.'
-                res_list = [op(x1, x2) for x1, x2 in zip(d1, d2)]
-            else:
-                res_list = [op(x) for x in d1.dual_vec]
+            # if d2 is not None and type(d2) in [int, float, Dual]:
+            #     res_list = [op(x, d2) for x in d1.dual_vec]
+            # elif d2 is not None:
+            #     assert len(d1) == len(d2), f'operands length mismatch, found {len(d1)} and {len(d2)}.'
+            #     res_list = [op(x1, x2) for x1, x2 in zip(d1, d2)]
+            # else:
+            res_list = [op(x) for x in d1.dual_vec]
             res = DualVector(vec=res_list)
         else:
             res = op(d1, d2) if d2 is not None else op(d1)
 
         return res
-
     return func
 
 
- class Dual():
+class Dual:
     def __init__(self, real=0, dual=0):
         self.real = real
         self.dual = dual
