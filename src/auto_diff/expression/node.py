@@ -5,7 +5,7 @@
 # Copyright 2022 Harvard University. All Rights Reserved.
 import numpy as np
 
-import ops
+# from . import ops
 
 
 class Node:
@@ -15,7 +15,9 @@ class Node:
         self.id = Node.num_node
         Node.num_node += 1
         self.parent = p
-        self.partial_func = ddp
+        self.partial_func = ddp #DF/DX
+        # EX. F=X**2 ddp=lambda x: 2x (function)
+        # x= 2, val = ddp(2) = 4
         self.partial_val = []
         self.child = []
         self.received = set()

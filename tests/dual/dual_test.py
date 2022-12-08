@@ -1,8 +1,15 @@
 from auto_diff.dual import Dual
+from auto_diff.dual import DualVector
 import numpy as np
 import pytest
 
 class TestDual:
+
+    def test_vec_dec_func(self):
+        x = DualVector(real=[2, 1], dual=[2, 2], vec=None)
+        assert Dual.log(x).dual_vec[0] == Dual(0, 0)
+        assert Dual.log(x).dual_vec[1] == Dual(0, 0)
+
 
     def test_dual_init(self):
         x = Dual(1, 1)
@@ -144,3 +151,33 @@ class TestDual:
         assert Dual.tan(x1) == Dual(1, 0)
         assert Dual.tan(x2) == Dual(1, np.pi)
 
+    def test_dual_vector_init(self):
+        x = DualVector(real=[0, 1], dual=[0, 1], vec=None)
+        y = DualVector(real=[], dual=[], vec=None)
+        assert x.dual_vec[0] == Dual(0, 0)
+        assert x.dual_vec[1] == Dual(1, 1)
+        assert x.len == 2
+        assert y.dual_vec == []
+        with pytest.raises(Exception):
+            DualVector(real=[0], dual=[0, 1], vec=None)
+
+
+    def test_dual_vector_len(self):
+        x = DualVector(real=[0, 1], dual=[0, 1], vec=None)
+        assert len(x) == 2
+
+    def test_dual_vector_iter(self):
+        for x in DualVector(real=[0], dual=[2], vec=None):
+            assert x == Dual(0, 2)
+
+    #def test_dual_vector_str(self):
+        #x = DualVector(real=[0, 1], dual=[0, 1], vec=None)
+        #self.assertEqual(str(x), "real 0, dual 0\nreal 1, dual 1\n")
+
+    def test_dual_vector_get_real(self):
+        x = DualVector(real=[0, 1], dual=[0, 2], vec=None)
+        assert x.get_real() == [0, 1]
+
+    def test_dual_vector_get_dual(self):
+        x = DualVector(real=[0, 1], dual=[0, 2], vec=None)
+        assert x.get_dual() == [0, 2]
