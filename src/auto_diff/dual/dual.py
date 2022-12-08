@@ -95,6 +95,15 @@ class Dual:
 
         a, b = self.real, self.dual
         return Dual(a ** c, a ** c * (d * np.log(a) + b * c / a))
+    
+    @vec_dec
+    def __rpow__(self, other, modulo=None):
+        if type(other) in [float, int]:
+            c = other
+        else:
+            raise TypeError("Power operation not supported for type DualNumber and {}".format(type(other)))
+        a, b = self.real, self.dual
+        return Dual(c ** a, np.log(c) * c ** a * b)
 
     __radd__ = __add__
     __rmul__ = __mul__
@@ -111,6 +120,9 @@ class Dual:
     def __eq__(self, other):
         return type(other) == Dual and np.isclose(self.real, other.real) and np.isclose(self.dual, other.dual)
 
+    def __ne__(self, other):
+        return type(other) != Dual or not np.isclose(self.real, other.real) or not np.isclose(self.dual, other.dual)
+
     def get_real(self):
         return self.real
 
@@ -126,6 +138,11 @@ class Dual:
     @vec_dec
     def log(x):
         return Dual(np.log(x.real), x.dual / x.real)
+    
+    @staticmethod
+    @vec_dec
+    def log_base(x, base):
+        return Dual(np.log(x.real) / np.log(base), x.dual / (x.real * np.log(base)))
 
     @staticmethod
     @vec_dec
@@ -141,7 +158,47 @@ class Dual:
     @vec_dec
     def tan(x):
         return Dual(np.tan(x.real), x.dual / np.power(np.cos(x.real), 2))
+    
+    @staticmethod
+    @vec_dec
+    def arcsin(x):
+        return Dual(np.arcsin(x.real), x.dual /np.power(1 - x.real * x.real,0.5))
 
+    @staticmethod
+    @vec_dec
+    def arccos(x):
+        return Dual(np.arccos(x.real), - x.dual /np.power(1 - x.real * x.real,0.5))
+
+    @staticmethod
+    @vec_dec
+    def arctan(x):
+        return Dual(np.arctan(x.real), x.dual /(1 + x.real * x.real))
+
+    @staticmethod #(sinh, cosh, tanh)
+    @vec_dec
+    def sinh(x):
+        return Dual(np.sinh(x.real), x.dual * np.cosh(x.real))
+    
+    @staticmethod 
+    @vec_dec
+    def cosh(x):
+        return Dual(np.cosh(x.real), x.dual * np.sinh(x.real))
+    
+    @staticmethod 
+    @vec_dec
+    def tanh(x):
+        return Dual(np.tanh(x.real), x.dual * (1 - np.power(np.tanh(x.real),2)))
+
+    @staticmethod 
+    @vec_dec
+    def sigmoid(x):
+        sig = 1/(1 + np.exp(-x.real))
+        return Dual(sig, x.dual * (sig * (1-sig)))
+
+    @staticmethod 
+    @vec_dec
+    def sqrt(x):
+        return Dual(np.sqrt(x.real), x.dual * (0.5 * np.power(x.real,-0.5)))
 
 class DualVector(Dual):
     def __init__(self, real=[], dual=[], vec=None):
