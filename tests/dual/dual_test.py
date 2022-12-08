@@ -6,10 +6,9 @@ import pytest
 class TestDual:
 
     def test_vec_dec_func(self):
-        x = DualVector(real=[2, 1], dual=[2, 2], vec=None)
-        #assert Dual.log(x).dual_vec[0] == Dual(0, 0)
-        #assert Dual.log(x).dual_vec[1] == Dual(0, 0)
-
+        x = DualVector(real=[1, 1], dual=[0, 2], vec=None)
+        assert Dual.log(x).dual_vec[0] == Dual(0, 0)
+        assert Dual.log(x).dual_vec[1] == Dual(0, 2)
 
     def test_dual_init(self):
         x = Dual(1, 1)
@@ -103,6 +102,18 @@ class TestDual:
         with pytest.raises(Exception):
             x ** s
 
+    def test_dual_rpow(self):
+        x = Dual(2, 1)
+        x2 = Dual(1, 1)
+        p1 = 2
+        p2 = 0.5
+        s = "string"
+        assert p1 ** x == Dual(4, 2.772588722239781)
+        assert p2 ** x == Dual(0.25, -0.17328679513998632)
+        assert x2 ** x == Dual(1, 2)
+        with pytest.raises(Exception):
+            s ** x
+
     def test_dual_len(self):
         x = Dual(2, 1)
         assert len(x) == 1
@@ -115,10 +126,10 @@ class TestDual:
         x = Dual(2, 1)
         self.assertEqual(str(x), "real 2, dual 1")
 
-    # def test_dual_str(self):
-    #     x = Dual(2, 3.33)
-    #     y = Dual(2, 3.33)
-    #     assert x == y
+    def test_dual_ne(self):
+        x = Dual(2, 1)
+        y = Dual(3, 2)
+        assert x != y
 
     def test_dual_exp(self):
         x1 = Dual(0, 0)
@@ -179,6 +190,7 @@ class TestDual:
         x2 = Dual(0.5, 0.5)
         assert Dual.sinh(x1) == Dual(0, 0)
         assert Dual.sinh(x2) == Dual(0.5210953054937474, 0.5638129826031903)
+
     def test_dual_cosh(self):
         x1 = Dual(0, 0)
         x2 = Dual(0.5, 0)
@@ -213,7 +225,6 @@ class TestDual:
         with pytest.raises(Exception):
             DualVector(real=[0], dual=[0, 1], vec=None)
 
-
     def test_dual_vector_len(self):
         x = DualVector(real=[0, 1], dual=[0, 1], vec=None)
         assert len(x) == 2
@@ -221,10 +232,6 @@ class TestDual:
     def test_dual_vector_iter(self):
         for x in DualVector(real=[0], dual=[2], vec=None):
             assert x == Dual(0, 2)
-
-    #def test_dual_vector_str(self):
-        #x = DualVector(real=[0, 1], dual=[0, 1], vec=None)
-        #self.assertEqual(str(x), "real 0, dual 0\nreal 1, dual 1\n")
 
     def test_dual_vector_get_real(self):
         x = DualVector(real=[0, 1], dual=[0, 2], vec=None)
