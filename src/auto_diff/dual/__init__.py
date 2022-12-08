@@ -1,3 +1,3 @@
-from .dual import Dual
+from .dual import Dual, DualVector
 
-__all__ = ['Dual']
+__all__ = ['Dual', 'DualVector']
