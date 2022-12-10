@@ -188,8 +188,6 @@ class Expression:
                         node=Node([self.node], [(lambda x: power * x ** (power - 1))]))
 
     def __rpow__(self, other, modulo=None):
-        if isinstance(other, Expression):
-            return other.__power__(self)
         return Function(self, f=(lambda a: other ** a), mode=self.mode,
                         node=Node([self.node], [(lambda x: other ** x * np.log(other))]))
 
@@ -399,7 +397,8 @@ class Function(Expression):
         if self.e2:
             self.e2.clear()
         self.val = None
-        self.node.clear()
+        if self.node:
+            self.node.clear()
 
     def propagate(self, inputs, child=None):
         """
@@ -502,7 +501,8 @@ class Variable(Expression):
         :return:
         """
         self.val = None
-        self.node.clear()
+        if self.node:
+            self.node.clear()
 
     def propagate(self, inputs, child=None):
         """
