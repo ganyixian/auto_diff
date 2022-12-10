@@ -135,19 +135,31 @@ class Dual:
         return type(other) != Dual or not np.isclose(self.real, other.real) or not np.isclose(self.dual, other.dual)
 
     def get_real(self):
+        """
+        Get the real part of Dual number
+        """
         return self.real
 
     def get_dual(self):
+        """
+        Get the dual part of Dual number
+        """
         return self.dual
 
     @staticmethod
     @vec_dec
     def exp(x):
+        """
+
+        """
         return Dual(np.exp(x.real), x.dual * np.exp(x.real))
 
     @staticmethod
     @vec_dec
     def log(x):
+        """
+
+        """
         return Dual(np.log(x.real), x.dual / x.real)
     
     @staticmethod
