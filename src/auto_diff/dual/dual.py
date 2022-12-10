@@ -218,7 +218,7 @@ class Dual:
         """
         Calculate the inverse of sine operation of input
 
-        :param x: Dual Number
+        :param x: Dual Number, and the real part domain:[-1,1]
         :return: Dual Number
         """
         return Dual(np.arcsin(x.real), x.dual /np.power(1 - x.real * x.real,0.5))
@@ -229,7 +229,7 @@ class Dual:
         """
         Calculate the inverse of cosine operation of input
 
-        :param x: Dual Number
+        :param x: Dual Number, and the real part domain:[-1,1]
         :return: Dual Number
         """
         return Dual(np.arccos(x.real), - x.dual /np.power(1 - x.real * x.real,0.5))
@@ -241,7 +241,7 @@ class Dual:
         Calculate the inverse of tangent operation of input
 
         :param x: Dual Number
-        :return: Dual Number
+        :return: Dual Number, and the real part domain is all real numbers
         """
         return Dual(np.arctan(x.real), x.dual /(1 + x.real * x.real))
 
