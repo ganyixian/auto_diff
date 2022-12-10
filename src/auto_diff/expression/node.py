@@ -46,7 +46,7 @@ class Node:
         if self.adjoint is None:
             self.adjoint = val
         else:
-            self.adjoint += val
+            self.adjoint = self.adjoint + val
         self.received.add(id)
 
     def compute(self):
