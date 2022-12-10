@@ -16,8 +16,8 @@ def vec_dec(op):
     """
     Dual vector decorator
 
-    :param op:
-    :return:
+    :param op: The function to decorate
+    :return: Decorated function
     """
     def func(d1, d2=None):
         if isinstance(d1, DualVector):
@@ -40,7 +40,6 @@ def vec_dec(op):
 class Dual:
     """
     Dual number object
-
     """
     def __init__(self, real=0, dual=0):
         self.real = real
@@ -150,7 +149,10 @@ class Dual:
     @vec_dec
     def exp(x):
         """
+        Calculate the exponential operation of input
 
+        :param x: Dual number
+        :return: Dual number
         """
         return Dual(np.exp(x.real), x.dual * np.exp(x.real))
 
@@ -158,69 +160,145 @@ class Dual:
     @vec_dec
     def log(x):
         """
+        Calculate the natural logarithmic operation of input
 
+        :param x: Dual number
+        :return: Dual number
         """
         return Dual(np.log(x.real), x.dual / x.real)
     
     @staticmethod
     @vec_dec
     def log_base(x, base):
+        """
+        Calculate the logarithm of input with a chosen base (positive, not equal to 1)
+
+        :param x: Dual number
+        :param base: positive real number
+        :return: Dual number
+        """
         return Dual(np.log(x.real) / np.log(base), x.dual / (x.real * np.log(base)))
 
     @staticmethod
     @vec_dec
     def sin(x):
+        """
+        Calculate the sine operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.sin(x.real), x.dual * np.cos(x.real))
 
     @staticmethod
     @vec_dec
     def cos(x):
+        """
+        Calculate the cosine operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.cos(x.real), - x.dual * np.sin(x.real))
 
     @staticmethod
     @vec_dec
     def tan(x):
+        """
+        Calculate the tangent operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.tan(x.real), x.dual / np.power(np.cos(x.real), 2))
     
     @staticmethod
     @vec_dec
     def arcsin(x):
+        """
+        Calculate the inverse of sine operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.arcsin(x.real), x.dual /np.power(1 - x.real * x.real,0.5))
 
     @staticmethod
     @vec_dec
     def arccos(x):
+        """
+        Calculate the inverse of cosine operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.arccos(x.real), - x.dual /np.power(1 - x.real * x.real,0.5))
 
     @staticmethod
     @vec_dec
     def arctan(x):
+        """
+        Calculate the inverse of tangent operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.arctan(x.real), x.dual /(1 + x.real * x.real))
 
     @staticmethod #(sinh, cosh, tanh)
     @vec_dec
     def sinh(x):
+        """
+        Calculate the hyperbolic sine operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.sinh(x.real), x.dual * np.cosh(x.real))
     
     @staticmethod 
     @vec_dec
     def cosh(x):
+        """
+        Calculate the hyperbolic cosine operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.cosh(x.real), x.dual * np.sinh(x.real))
     
     @staticmethod 
     @vec_dec
     def tanh(x):
+        """
+        Calculate the hyperbolic tangent operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.tanh(x.real), x.dual * (1 - np.power(np.tanh(x.real),2)))
 
     @staticmethod 
     @vec_dec
     def sigmoid(x):
+        """
+        Calculate the sigmoid operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         sig = 1/(1 + np.exp(-x.real))
         return Dual(sig, x.dual * (sig * (1-sig)))
 
     @staticmethod 
     @vec_dec
     def sqrt(x):
+        """
+        Calculate the square root operation of input
+
+        :param x: Dual Number
+        :return: Dual Number
+        """
         return Dual(np.sqrt(x.real), x.dual * (0.5 * np.power(x.real,-0.5)))
 
 class DualVector(Dual):
@@ -246,9 +324,15 @@ class DualVector(Dual):
         return ret
 
     def get_real(self):
+        """
+        Return the real part of Dual vector as a list
+        """
         return [d.real for d in self.dual_vec]
 
     def get_dual(self):
+        """
+        Return the dual part of Dual vector as a list
+        """
         return [d.dual for d in self.dual_vec]
 
 

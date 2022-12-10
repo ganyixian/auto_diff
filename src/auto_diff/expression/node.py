@@ -9,6 +9,9 @@ import numpy as np
 
 
 class Node:
+    """
+
+    """
     num_node = 0
 
     def __init__(self, p=[], ddp=[]):
@@ -24,10 +27,21 @@ class Node:
         self.adjoint = None
 
     def update(self, *args):
+        """
+
+        :param args:
+        :return:
+        """
         for ddp in self.partial_func:
             self.partial_val.append(ddp(*args))
 
     def notify(self, id, val):
+        """
+
+        :param id:
+        :param val:
+        :return:
+        """
         assert id in self.child, 'Informed by unknown child'
         if self.adjoint is None:
             self.adjoint = val
@@ -36,6 +50,10 @@ class Node:
         self.received.add(id)
 
     def compute(self):
+        """
+
+        :return:
+        """
         if len(self.received) == len(self.child):
             if self.adjoint is None:
                 self.adjoint =np.ones_like(self.partial_val[0])
@@ -46,6 +64,10 @@ class Node:
             return False
 
     def clear(self):
+        """
+
+        :return:
+        """
         self.partial_val = []
         self.received = set()
         self.adjoint = None

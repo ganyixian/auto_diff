@@ -11,6 +11,11 @@ from .node import Node
 
 
 def _generate_base(inputs):
+    """
+
+    :param inputs:
+    :return:
+    """
     assert isinstance(inputs, dict)
 
     zero_vec = {k: 0 if type(v) in [int, float] else np.zeros_like(v) for k, v in inputs.items()}
@@ -27,6 +32,9 @@ def _generate_base(inputs):
 
 
 class Compose:
+    """
+
+    """
     def __init__(self, flist=[]):
         self.funcs = flist
         self.mode = flist[0].mode
@@ -48,6 +56,11 @@ class Compose:
             return [f(inputs, seed) for f in self.funcs]
 
     def merge(self, res_dict):
+        """
+
+        :param res_dict:
+        :return:
+        """
         res_list = []
         for X, dFdX in res_dict.items():
             for dFdx in dFdX:
@@ -59,6 +72,10 @@ class Compose:
         return res_list
 
     def clear(self):
+        """
+
+        :return:
+        """
         for f in self.funcs:
             f.clear()
 
@@ -74,6 +91,9 @@ class Compose:
 
 
 class Expression:
+    """
+
+    """
     def __init__(self, mode='f', name=None):
         self.val = None
         self.mode = mode
@@ -172,31 +192,64 @@ class Expression:
 
     @staticmethod
     def sin(x):
+        """
+        Create a Function object for sine operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._sin, mode=x.mode, node=Node([x.node], [(lambda x: np.cos(x))]))
 
     @staticmethod
     def cos(x):
+        """
+        Create a Function object for cosine operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._cos, mode=x.mode, node=Node([x.node], [(lambda x: -np.sin(x))]))
 
     @staticmethod
     def tan(x):
+        """
+        Create a Function object for tangent operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._tan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / np.cos(x) ** 2)]))
 
     @staticmethod
     def exp(x):
+        """
+        Create a Function object for exponential operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._exp, mode=x.mode, node=Node([x.node], [(lambda x: np.exp(x))]))
 
     @staticmethod
     def log(x):
+        """
+        Create a Function object for natural logarithmic operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._log, mode=x.mode, node=Node([x.node], [(lambda x: 1 / x)]))
 
 
 class Function(Expression):
+    """
+
+    """
 
     def __init__(self, e1, e2=None, f=None, mode='f', node=None):
         super(Function, self).__init__(mode=mode)
@@ -209,6 +262,12 @@ class Function(Expression):
             self.varname.update(e2.varname)
 
     def forward(self, inputs, seed):
+        """
+
+        :param inputs:
+        :param seed:
+        :return:
+        """
         if self.val:
             return self.val
 
@@ -222,6 +281,10 @@ class Function(Expression):
         return self.val
 
     def clear(self):
+        """
+
+        :return:
+        """
         self.e1.clear()
         if self.e2:
             self.e2.clear()
@@ -229,6 +292,12 @@ class Function(Expression):
         self.node.clear()
 
     def propagate(self, inputs, child=None):
+        """
+
+        :param inputs:
+        :param child:
+        :return:
+        """
         if child is not None:
             self.node.child.append(child)
 
@@ -244,6 +313,10 @@ class Function(Expression):
         return self.val
 
     def backward(self):
+        """
+
+        :return:
+        """
         res = {}
         if self.node.compute():
             res = res | (self.e1.backward())
@@ -268,6 +341,9 @@ class Function(Expression):
 
 
 class Variable(Expression):
+    """
+
+    """
 
     def __init__(self, name, mode='f'):
         super(Variable, self).__init__(mode=mode, name=name)
@@ -277,10 +353,22 @@ class Variable(Expression):
 
     @classmethod
     def vars(cls, varlist=[], mode='f'):
+        """
+
+        :param varlist:
+        :param mode:
+        :return:
+        """
         assert isinstance(varlist, (list, tuple)), 'Please provide a list of variable names.'
         return [cls(v, mode) for v in varlist]
 
     def forward(self, inputs, seed):
+        """
+
+        :param inputs:
+        :param seed:
+        :return:
+        """
         if self.val:
             return self.val
 
@@ -299,10 +387,20 @@ class Variable(Expression):
         return self.val
 
     def clear(self):
+        """
+
+        :return:
+        """
         self.val = None
         self.node.clear()
 
     def propagate(self, inputs, child=None):
+        """
+
+        :param inputs:
+        :param child:
+        :return:
+        """
         if child is not None:
             self.node.child.append(child)
 
@@ -322,6 +420,10 @@ class Variable(Expression):
         return self.val
 
     def backward(self):
+        """
+
+        :return:
+        """
         if self.node.compute():
             return {self.name: self.node.adjoint}
         else:
