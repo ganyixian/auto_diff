@@ -13,6 +13,12 @@ import numpy as np
 # """
 
 def vec_dec(op):
+    """
+    Dual vector decorator
+
+    :param op:
+    :return:
+    """
     def func(d1, d2=None):
         if isinstance(d1, DualVector):
             if d2 is not None and type(d2) in [int, float, Dual]:
@@ -32,6 +38,10 @@ def vec_dec(op):
 
 
 class Dual:
+    """
+    Dual number object
+
+    """
     def __init__(self, real=0, dual=0):
         self.real = real
         self.dual = dual

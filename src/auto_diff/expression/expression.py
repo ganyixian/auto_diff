@@ -5,9 +5,9 @@
 # Copyright 2022 Harvard University. All Rights Reserved.
 import numpy as np
 
-from dual import Dual, DualVector
-from node import Node
-import ops
+from ..dual import Dual, DualVector
+from . import ops
+from .node import Node
 
 
 def _generate_base(inputs):
