@@ -186,7 +186,7 @@ class Expression:
                                  [(lambda x, y: y * x ** (y - 1)), (lambda x, y: x ** y * np.log(x))]))
         return Function(self, f=(lambda a: a ** power), mode=self.mode,
                         node=Node([self.node], [(lambda x: power * x ** (power - 1))]))
-    
+
     def __rpow__(self, other, modulo=None):
         if isinstance(other, Expression):
             return other.__power__(self)
@@ -232,38 +232,80 @@ class Expression:
     # new implemented inverse trig functions.
     @staticmethod
     def arcsin(x):
+        """
+        Create a Function object for inverse of sine operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._arcsin, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 - x * x) ** 0.5)]))
 
     @staticmethod
     def arccos(x):
+        """
+        Create a Function object for inverse of cosine operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._arccos, mode=x.mode, node=Node([x.node], [(lambda x: -1 / (1 - x * x) ** 0.5)]))
 
     @staticmethod
     def arctan(x):
+        """
+        Create a Function object for inverse of tangent operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._arctan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 + x * x))]))
 
     # new implemented hyperbolic functions.
     @staticmethod
     def sinh(x):
+        """
+        Create a Function object for hyperbolic sine operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._sinh, mode=x.mode, node=Node([x.node], [(lambda x: (np.cosh(x)))]))
 
     @staticmethod
     def cosh(x):
+        """
+        Create a Function object for hyperbolic cosine operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._cosh, mode=x.mode, node=Node([x.node], [(lambda x: (np.sinh(x)))]))
 
     @staticmethod
     def tanh(x):
+        """
+        Create a Function object for hyperbolic tangent operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1 - (np.tanh(x)) ** 2)]))
 
     # new implemented standard logistic function.
     @staticmethod
     def sigmoid(x):
+        """
+        Create a Function object for sigmoid operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         sig = 1 / (1 + Expression.exp(-x))
         return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1 - sig))]))
@@ -293,11 +335,23 @@ class Expression:
 
     @staticmethod
     def log_base(x, base):
+        """
+        Create a Function object for the logarithm operation with a chosen base
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f= (lambda x : ops._log_base(x, base)), mode=x.mode, node=Node([x.node], [(lambda x: 1 / (x * np.log(base)))]))
 
     @staticmethod
     def sqrt(x):
+        """
+        Create a Function object for square root operation of input
+
+        :param x: Expression
+        :return: Function
+        """
         assert isinstance(x, Expression)
         return Function(x, f=ops._sqrt, mode=x.mode, node=Node([x.node], [(lambda x: 0.5 * (x ** -0.5))]))
 
