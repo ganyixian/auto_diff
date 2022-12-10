@@ -3,11 +3,11 @@
 # File       : expression.py
 # Description: autodiff functional expressions
 # Copyright 2022 Harvard University. All Rights Reserved.
-import numpy as np 
+import numpy as np
 
-from ..dual import Dual, DualVector
-from . import ops
-from .node import Node
+from dual import Dual, DualVector
+from node import Node
+import ops
 
 
 def _generate_base(inputs):
@@ -71,7 +71,7 @@ class Compose:
 
     def __str__(self):
         return str(self.funcs)
-      
+
 
 class Expression:
     def __init__(self, mode='f', name=None):
@@ -84,7 +84,6 @@ class Expression:
             inputs = {k: inputs for k in self.varname}
 
         if self.mode == 'f':
-
             print(f'Now in Forward mode!')
             if seed:
                 if isinstance(seed, (float, int)):
@@ -136,7 +135,7 @@ class Expression:
         if isinstance(other, Expression):
             return Function(self, other, (lambda x, y: x * y), self.mode,
                             Node([self.node, other.node], [(lambda x, y: y), (lambda x, y: x)]))
-        return Function(self, f=(lambda x: x * other), mode=self.mode, node=Node([self.node], [(lambda x: other * x)]))
+        return Function(self, f=(lambda x: x * other), mode=self.mode, node=Node([self.node], [(lambda x: other)]))
 
     __radd__ = __add__
     __rmul__ = __mul__
@@ -168,12 +167,6 @@ class Expression:
         return Function(self, f=(lambda a: a ** power), mode=self.mode,
                         node=Node([self.node], [(lambda x: power * x ** (power - 1))]))
 
-    def __rpow__(self, other, modulo=None):
-        if isinstance(other, Expression):
-            return other.__power__(self)
-        return Function(self, f=(lambda a: other ** a), mode=self.mode,
-                        node=Node([self.node], [(lambda x: other ** x * np.log(other))]))
-
     def __neg__(self):
         return Function(self, f=(lambda x: -x), mode=self.mode, node=Node([self.node], [(lambda x: -1)]))
 
@@ -191,44 +184,6 @@ class Expression:
     def tan(x):
         assert isinstance(x, Expression)
         return Function(x, f=ops._tan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / np.cos(x) ** 2)]))
-#new implemented inverse trig functions. 
-    @staticmethod
-    def arcsin(x):
-        assert isinstance(x, Expression)
-        return Function(x, f=ops._arcsin, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 - x * x) ** 0.5)]))
-    
-    @staticmethod
-    def arccos(x):
-        assert isinstance(x, Expression)
-        return Function(x, f=ops._arccos, mode=x.mode, node=Node([x.node], [(lambda x: -1 / (1 - x * x) ** 0.5)]))
-
-    @staticmethod
-    def arctan(x):
-        assert isinstance(x, Expression)
-        return Function(x, f=ops._arctan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 + x * x))]))
-
-#new implemented hyperbolic functions. 
-    @staticmethod
-    def sinh(x):
-        assert isinstance(x, Expression)
-        return Function(x, f=ops._sinh, mode=x.mode, node=Node([x.node], [(lambda x: (np.cosh(x)))]))
-
-    @staticmethod
-    def cosh(x):
-        assert isinstance(x, Expression)
-        return Function(x, f=ops._cosh, mode=x.mode, node=Node([x.node], [(lambda x: (np.sinh(x)))]))
-
-    @staticmethod
-    def tanh(x):
-        assert isinstance(x, Expression)
-        return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1 - (np.tanh(x)) ** 2)])) 
-
-#new implemented standard logistic function.
-    @staticmethod
-    def sigmoid(x):
-        assert isinstance(x, Expression)
-        sig = 1 / (1 + Expression.exp(-x))
-        return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1 - sig))])) 
 
     @staticmethod
     def exp(x):
@@ -240,17 +195,9 @@ class Expression:
         assert isinstance(x, Expression)
         return Function(x, f=ops._log, mode=x.mode, node=Node([x.node], [(lambda x: 1 / x)]))
 
-    @staticmethod
-    def log_base(x, base):
-        assert isinstance(x, Expression)
-        return Function(x, f= (lambda x : ops._log_base(x, base)), mode=x.mode, node=Node([x.node], [(lambda x: 1 / (x * np.log(base)))]))
-
-    @staticmethod
-    def sqrt(x):
-        assert isinstance(x, Expression)
-        return Function(x, f=ops._sqrt, mode=x.mode, node=Node([x.node], [(lambda x: 0.5 * (x ** -0.5))]))
 
 class Function(Expression):
+
     def __init__(self, e1, e2=None, f=None, mode='f', node=None):
         super(Function, self).__init__(mode=mode)
         self.e1 = e1
@@ -364,7 +311,9 @@ class Variable(Expression):
 
         if type(inputs) == dict:
             self.val = inputs.get(self.name, 0)
-        elif type(inputs) in [list, np.ndarray, int, float]:
+        elif type(inputs) in [list, np.ndarray]:
+            self.val = np.array(inputs)
+        elif type(inputs) in [int, float]:
             self.val = inputs
         else:
             raise ValueError(
@@ -389,13 +338,12 @@ class Variable(Expression):
 
 
 if __name__ == '__main__':
-    x, y = Variable.vars(['x', 'y'], 'r')
-    f = Compose([x ** 2 + x * y, x-y])
-    # f = x**2 + x * y
-    inputs = {'x': np.array([1, 2]), 'y': 2}
-    # seed = {'x': [0,0,0,1], 'y':0}
-    print(f(inputs))
-
+    x, y = Variable('x', mode='r'), Variable('y', mode='r')
+    f = Expression.sin(x * 4) + Expression.cos(y * 4)  # create a function f = sin(4x) + cos(4y)
+    f = f + Expression.exp(x * y)  # f = sin(4x) + cos(4y) + e^(xy)
+    f_val, f_deriv = f({'x': 1, 'y': 2})
+    # return the value of f and the derivative in the direction of seed at x = 1, y = 1.
+    print(f_val, f_deriv)
     # a = DualVector([1,1,1], [2,2,2])
     # print(type(a) == Dual)
     # exit()
