@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "auto_diff_2022_fall_team04"
-version = "0.0.2"
+name = "auto_diff_CGLLY"
+version = "0.0.3"
 authors = [
   { name="Yixian Gan", email="ygan@g.harvard.edu" },
   { name="Li Yao", email="li.yao@fas.harvard.edu" },
@@ -21,8 +21,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "numpy"
-    "pytest"
+    "numpy",
+    "pytest",
     "pytest-cov"
 ]
 [project.urls]
