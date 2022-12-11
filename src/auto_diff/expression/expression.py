@@ -13,8 +13,10 @@ from .node import Node
 def _generate_base(inputs):
     """
 
-    :param inputs:
-    :return:
+    Function to generate zero vector for forward evaluation process
+
+    :param inputs: Dictionary input
+    :return: A list of int, float, or list.
     """
     assert isinstance(inputs, dict)
 
@@ -33,9 +35,14 @@ def _generate_base(inputs):
 
 class Compose:
     """
-
+    A wrapper class that achieves evaluating mutiple functions together.
     """
     def __init__(self, flist=[]):
+        """
+        Initialize the Compose object by the input function list
+        
+        :param flist: Function list
+        """
         self.funcs = flist
         self.mode = flist[0].mode
         assert all(
@@ -57,9 +64,10 @@ class Compose:
 
     def merge(self, res_dict):
         """
+        Merge the evaluation results from a dictionary to a single list.
 
-        :param res_dict:
-        :return:
+        :param res_dict: Result Dictonary
+        :return: Result list
         """
         res_list = []
         for X, dFdX in res_dict.items():
@@ -73,8 +81,7 @@ class Compose:
 
     def clear(self):
         """
-
-        :return:
+        Clear the input and other variable saved in the functions.
         """
         for f in self.funcs:
             f.clear()
@@ -92,7 +99,8 @@ class Compose:
 
 class Expression:
     """
-
+    Base class for Function and Variable. Defines the underlying common functions
+    shared by both classes.
     """
     def __init__(self, mode='f', name=None):
         self.val = None
@@ -356,7 +364,8 @@ class Expression:
 
 class Function(Expression):
     """
-
+    A class represents a mathamatical function. The function class supports building functions from variables 
+    and evaluating in both forward mode and backward mode.
     """
 
     def __init__(self, e1, e2=None, f=None, mode='f', node=None):
@@ -371,10 +380,11 @@ class Function(Expression):
 
     def forward(self, inputs, seed):
         """
+        Forward mode differentiation for a Function.
 
-        :param inputs:
-        :param seed:
-        :return:
+        :param inputs: dictionary
+        :param seed: dictionary
+        :return: Dual or DualVector
         """
         if self.val:
             return self.val
@@ -390,8 +400,7 @@ class Function(Expression):
 
     def clear(self):
         """
-
-        :return:
+        Clear the previous evaluation result, and clears the expressions and node.
         """
         self.e1.clear()
         if self.e2:
@@ -402,10 +411,11 @@ class Function(Expression):
 
     def propagate(self, inputs, child=None):
         """
-
-        :param inputs:
-        :param child:
-        :return:
+        Forward pass of the reverse mode differentiation.
+        
+        :param inputs: input dictionary
+        :param child: node
+        :return: evaluation result -> int, float, or np.array 
         """
         if child is not None:
             self.node.child.append(child)
@@ -423,8 +433,8 @@ class Function(Expression):
 
     def backward(self):
         """
-
-        :return:
+        Backward pass of the reverse mode differentiation.
+        :return: derivative result -> int, float, or np.array 
         """
         res = {}
         if self.node.compute():
@@ -463,16 +473,18 @@ class Variable(Expression):
     @classmethod
     def vars(cls, varlist=[], mode='f'):
         """
+        Create a list of function with in put name and mode
 
-        :param varlist:
-        :param mode:
-        :return:
+        :param varlist: variable name list
+        :param mode: variable mode
+        :return: list of variable
         """
         assert isinstance(varlist, (list, tuple)), 'Please provide a list of variable names.'
         return [cls(v, mode) for v in varlist]
 
     def forward(self, inputs, seed):
         """
+        Forward mode differentiation for a variable.
 
         :param inputs:
         :param seed:
@@ -497,8 +509,7 @@ class Variable(Expression):
 
     def clear(self):
         """
-
-        :return:
+        Clear the previous differentiation results.
         """
         self.val = None
         if self.node:
@@ -506,10 +517,11 @@ class Variable(Expression):
 
     def propagate(self, inputs, child=None):
         """
-
-        :param inputs:
-        :param child:
-        :return:
+        Forward pass of the reverse mode differentiation for a variable.
+        
+        :param inputs: input dictionary
+        :param child: node
+        :return: evaluation result -> int, float, or np.array 
         """
         if child is not None:
             self.node.child.append(child)
@@ -532,8 +544,8 @@ class Variable(Expression):
 
     def backward(self):
         """
-
-        :return:
+        Backward pass of the reverse mode differentiation for a variable.
+        :return: derivative result -> int, float, or np.array 
         """
         if self.node.compute():
             return {self.name: self.node.adjoint}

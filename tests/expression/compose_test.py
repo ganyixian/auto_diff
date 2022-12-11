@@ -80,9 +80,3 @@ class TestCompose:
         assert f1.val == None
         assert f2.val == None
 
-
-
-
-    # def test_compose__str__(self):
-    #     f1 = Function(Variable('a'))
-    #     assert str(f1) == "Function object, function of {'a'}"

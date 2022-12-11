@@ -6,9 +6,9 @@ build-backend = "hatchling.build"
 name = "auto_diff_team_04"
 version = "0.0.1"
 authors = [
-  { name="Yixian Gan", email="author@example.com" },
+  { name="Yixian Gan", email="author@exaple.com" },
   { name="Li Yao", email="author@example.com" },
-  { name="Ting Cheng", email="author@example.com" },
+  { name="Ting Cheng", email="tingcheng@g.harvard.edu" },
   { name="Haitian Liu", email="haitianliu@fas.harvard.edu" },
   { name="Siyao Li", email="siyaoli@g.harvard.edu" },
 ]

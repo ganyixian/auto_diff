@@ -71,19 +71,5 @@ class TestFunctionUnit:
 
         assert f_val == -0.9023025291165417
         assert f_deriv == {'x': -2.6145744834544478, 'y': -3.957432986493527}
-
-if __name__ == '__main__':
-      # create a function f = sin(4x) + cos(4y)
-    f = f + Expression.exp(x * y)  # f = sin(4x) + cos(4y) + e^(xy)
-    f_val, f_deriv = f({'x': 1, 'y': 2})
-    # return the value of f and the derivative in the direction of seed at x = 1, y = 1.
-    print(f_val, f_deriv)
-    # a = DualVector([1,1,1], [2,2,2])
-    # print(type(a) == Dual)
-    # exit()
-    # print(f(inputs))
-    # v1 = [Dual(1,0), Dual(2,1), Dual(1,2),Dual(-1,1)]
-    # v2 = [Dual(0,1), Dual(1,2), Dual(1,2),Dual(-1,1)]
-    # print(v1 * v2)
-
+        
 
