@@ -68,8 +68,8 @@ class TestOps:
         x2 = Dual(0.5, 0)
         assert Dual.cosh(x1) == Dual(1, 0)
         assert Dual.cosh(x2) == Dual(1.1276259652063807, 0)
-        assert ops._cosh(0.0) == 0
-        assert ops._cosh(0) == 0
+        assert ops._cosh(0.0) == 1
+        assert ops._cosh(0) == 1
 
     def test_ops_tanh(self):
         x1 = Dual(0, 0)

@@ -11,10 +11,10 @@ from .node import Node
 
 
 def _generate_base(inputs):
-    """
+    """Function to generate zero vector for forward evaluation process
 
-    :param inputs:
-    :return:
+    :param inputs: Dictionary input
+    :return: A list of int, float, or list.
     """
     assert isinstance(inputs, dict)
 
@@ -32,10 +32,13 @@ def _generate_base(inputs):
 
 
 class Compose:
-    """
-
+    """A wrapper class that achieves evaluating mutiple functions together.
     """
     def __init__(self, flist=[]):
+        """Initialize the Compose object by the input function list
+        
+        :param flist: Function list
+        """
         self.funcs = flist
         self.mode = flist[0].mode
         assert all(
@@ -56,10 +59,10 @@ class Compose:
             return [f(inputs, seed) for f in self.funcs]
 
     def merge(self, res_dict):
-        """
+        """Merge the evaluation results from a dictionary to a single list.
 
-        :param res_dict:
-        :return:
+        :param res_dict: Result Dictonary
+        :return: Result list
         """
         res_list = []
         for X, dFdX in res_dict.items():
@@ -72,9 +75,7 @@ class Compose:
         return res_list
 
     def clear(self):
-        """
-
-        :return:
+        """Clear the input and other variable saved in the functions.
         """
         for f in self.funcs:
             f.clear()
@@ -87,12 +88,12 @@ class Compose:
             yield f
 
     def __str__(self):
-        return str(self.funcs)
+        return '\n'.join([str(func) for func in self.funcs])
 
 
 class Expression:
-    """
-
+    """Base class for Function and Variable. Defines the underlying common functions
+    shared by both classes.
     """
     def __init__(self, mode='f', name=None):
         self.val = None
@@ -188,8 +189,6 @@ class Expression:
                         node=Node([self.node], [(lambda x: power * x ** (power - 1))]))
 
     def __rpow__(self, other, modulo=None):
-        if isinstance(other, Expression):
-            return other.__power__(self)
         return Function(self, f=(lambda a: other ** a), mode=self.mode,
                         node=Node([self.node], [(lambda x: other ** x * np.log(other))]))
 
@@ -198,8 +197,7 @@ class Expression:
 
     @staticmethod
     def sin(x):
-        """
-        Create a Function object for sine operation of input
+        """Create a Function object for sine operation of input
 
         :param x: Expression
         :return: Function
@@ -209,8 +207,7 @@ class Expression:
 
     @staticmethod
     def cos(x):
-        """
-        Create a Function object for cosine operation of input
+        """Create a Function object for cosine operation of input
 
         :param x: Expression
         :return: Function
@@ -220,8 +217,7 @@ class Expression:
 
     @staticmethod
     def tan(x):
-        """
-        Create a Function object for tangent operation of input
+        """Create a Function object for tangent operation of input
 
         :param x: Expression
         :return: Function
@@ -232,8 +228,7 @@ class Expression:
     # new implemented inverse trig functions.
     @staticmethod
     def arcsin(x):
-        """
-        Create a Function object for inverse of sine operation of input
+        """Create a Function object for inverse of sine operation of input
 
         :param x: Expression
         :return: Function
@@ -243,8 +238,7 @@ class Expression:
 
     @staticmethod
     def arccos(x):
-        """
-        Create a Function object for inverse of cosine operation of input
+        """Create a Function object for inverse of cosine operation of input
 
         :param x: Expression
         :return: Function
@@ -254,8 +248,7 @@ class Expression:
 
     @staticmethod
     def arctan(x):
-        """
-        Create a Function object for inverse of tangent operation of input
+        """Create a Function object for inverse of tangent operation of input
 
         :param x: Expression
         :return: Function
@@ -266,8 +259,7 @@ class Expression:
     # new implemented hyperbolic functions.
     @staticmethod
     def sinh(x):
-        """
-        Create a Function object for hyperbolic sine operation of input
+        """Create a Function object for hyperbolic sine operation of input
 
         :param x: Expression
         :return: Function
@@ -277,8 +269,7 @@ class Expression:
 
     @staticmethod
     def cosh(x):
-        """
-        Create a Function object for hyperbolic cosine operation of input
+        """Create a Function object for hyperbolic cosine operation of input
 
         :param x: Expression
         :return: Function
@@ -288,8 +279,7 @@ class Expression:
 
     @staticmethod
     def tanh(x):
-        """
-        Create a Function object for hyperbolic tangent operation of input
+        """Create a Function object for hyperbolic tangent operation of input
 
         :param x: Expression
         :return: Function
@@ -300,8 +290,7 @@ class Expression:
     # new implemented standard logistic function.
     @staticmethod
     def sigmoid(x):
-        """
-        Create a Function object for sigmoid operation of input
+        """Create a Function object for sigmoid operation of input
 
         :param x: Expression
         :return: Function
@@ -313,8 +302,7 @@ class Expression:
 
     @staticmethod
     def exp(x):
-        """
-        Create a Function object for exponential operation of input
+        """Create a Function object for exponential operation of input
 
         :param x: Expression
         :return: Function
@@ -324,8 +312,7 @@ class Expression:
 
     @staticmethod
     def log(x):
-        """
-        Create a Function object for natural logarithmic operation of input
+        """Create a Function object for natural logarithmic operation of input
 
         :param x: Expression
         :return: Function
@@ -335,8 +322,7 @@ class Expression:
 
     @staticmethod
     def log_base(x, base):
-        """
-        Create a Function object for the logarithm operation with a chosen base
+        """Create a Function object for the logarithm operation with a chosen base
 
         :param x: Expression
         :return: Function
@@ -346,8 +332,7 @@ class Expression:
 
     @staticmethod
     def sqrt(x):
-        """
-        Create a Function object for square root operation of input
+        """Create a Function object for square root operation of input
 
         :param x: Expression
         :return: Function
@@ -357,8 +342,8 @@ class Expression:
 
 
 class Function(Expression):
-    """
-
+    """A class represents a mathamatical function. The function class supports building functions from variables 
+    and evaluating in both forward mode and backward mode.
     """
 
     def __init__(self, e1, e2=None, f=None, mode='f', node=None):
@@ -372,11 +357,11 @@ class Function(Expression):
             self.varname.update(e2.varname)
 
     def forward(self, inputs, seed):
-        """
+        """Forward mode differentiation for a Function.
 
-        :param inputs:
-        :param seed:
-        :return:
+        :param inputs: dictionary
+        :param seed: dictionary
+        :return: Dual or DualVector
         """
         if self.val:
             return self.val
@@ -391,22 +376,21 @@ class Function(Expression):
         return self.val
 
     def clear(self):
-        """
-
-        :return:
+        """Clear the previous evaluation result, and clears the expressions and node.
         """
         self.e1.clear()
         if self.e2:
             self.e2.clear()
         self.val = None
-        self.node.clear()
+        if self.node:
+            self.node.clear()
 
     def propagate(self, inputs, child=None):
-        """
-
-        :param inputs:
-        :param child:
-        :return:
+        """Forward pass of the reverse mode differentiation.
+        
+        :param inputs: input dictionary
+        :param child: node
+        :return: evaluation result -> int, float, or np.array 
         """
         if child is not None:
             self.node.child.append(child)
@@ -423,9 +407,8 @@ class Function(Expression):
         return self.val
 
     def backward(self):
-        """
-
-        :return:
+        """Backward pass of the reverse mode differentiation.
+        :return: derivative result -> int, float, or np.array 
         """
         res = {}
         if self.node.compute():
@@ -451,8 +434,7 @@ class Function(Expression):
 
 
 class Variable(Expression):
-    """
-
+    """A class represents a mathematical variable.
     """
 
     def __init__(self, name, mode='f'):
@@ -463,17 +445,17 @@ class Variable(Expression):
 
     @classmethod
     def vars(cls, varlist=[], mode='f'):
-        """
+        """Create a list of function with in put name and mode
 
-        :param varlist:
-        :param mode:
-        :return:
+        :param varlist: variable name list
+        :param mode: variable mode
+        :return: list of variable
         """
         assert isinstance(varlist, (list, tuple)), 'Please provide a list of variable names.'
         return [cls(v, mode) for v in varlist]
 
     def forward(self, inputs, seed):
-        """
+        """Forward mode differentiation for a variable.
 
         :param inputs:
         :param seed:
@@ -497,19 +479,18 @@ class Variable(Expression):
         return self.val
 
     def clear(self):
-        """
-
-        :return:
+        """Clear the previous differentiation results.
         """
         self.val = None
-        self.node.clear()
+        if self.node:
+            self.node.clear()
 
     def propagate(self, inputs, child=None):
-        """
-
-        :param inputs:
-        :param child:
-        :return:
+        """Forward pass of the reverse mode differentiation for a variable.
+        
+        :param inputs: input dictionary
+        :param child: node
+        :return: evaluation result -> int, float, or np.array 
         """
         if child is not None:
             self.node.child.append(child)
@@ -531,9 +512,8 @@ class Variable(Expression):
         return self.val
 
     def backward(self):
-        """
-
-        :return:
+        """Backward pass of the reverse mode differentiation for a variable.
+        :return: derivative result -> int, float, or np.array 
         """
         if self.node.compute():
             return {self.name: self.node.adjoint}
@@ -548,19 +528,3 @@ class Variable(Expression):
 
     def __str__(self):
         return f"Variable object, name {self.name}"
-
-
-if __name__ == '__main__':
-    x, y = Variable('x', mode='r'), Variable('y', mode='r')
-    f = Expression.sin(x * 4) + Expression.cos(y * 4)  # create a function f = sin(4x) + cos(4y)
-    f = f + Expression.exp(x * y)  # f = sin(4x) + cos(4y) + e^(xy)
-    f_val, f_deriv = f({'x': 1, 'y': 2})
-    # return the value of f and the derivative in the direction of seed at x = 1, y = 1.
-    print(f_val, f_deriv)
-    # a = DualVector([1,1,1], [2,2,2])
-    # print(type(a) == Dual)
-    # exit()
-    # print(f(inputs))
-    # v1 = [Dual(1,0), Dual(2,1), Dual(1,2),Dual(-1,1)]
-    # v2 = [Dual(0,1), Dual(1,2), Dual(1,2),Dual(-1,1)]
-    # print(v1 * v2)

@@ -54,3 +54,8 @@ class TestVariable:
         result = v1.forward({},{})
 
         assert result == Dual(1, 2)
+    
+    def test_variable_forward_with_unsupported_val(self):
+        v1 = Variable('a')
+        with pytest.raises(Exception):
+            v1.forward("", None)

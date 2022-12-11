@@ -7,14 +7,12 @@
 
 import numpy as np
 
+"""This module implements dual numbers and provides mathematical operations on dual numbers
+Dual number is the underlying data structure for forward mode AutoDiff
 """
-# This module implements dual numbers and provides mathematical operations on dual numbers
-# Dual number is the underlying data structure for forward mode AutoDiff
-# """
 
 def vec_dec(op):
-    """
-    Dual vector decorator
+    """Dual vector decorator
 
     :param op: The function to decorate
     :return: Decorated function
@@ -38,8 +36,7 @@ def vec_dec(op):
 
 
 class Dual:
-    """
-    Dual number object
+    """Dual number object
     """
     def __init__(self, real=0, dual=0):
         self.real = real
@@ -134,22 +131,19 @@ class Dual:
         return type(other) != Dual or not np.isclose(self.real, other.real) or not np.isclose(self.dual, other.dual)
 
     def get_real(self):
-        """
-        Get the real part of Dual number
+        """Get the real part of Dual number
         """
         return self.real
 
     def get_dual(self):
-        """
-        Get the dual part of Dual number
+        """Get the dual part of Dual number
         """
         return self.dual
 
     @staticmethod
     @vec_dec
     def exp(x):
-        """
-        Calculate the exponential operation of input
+        """Calculate the exponential operation of input
 
         :param x: Dual number
         :return: Dual number
@@ -159,8 +153,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def log(x):
-        """
-        Calculate the natural logarithmic operation of input
+        """Calculate the natural logarithmic operation of input
 
         :param x: Dual number
         :return: Dual number
@@ -170,8 +163,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def log_base(x, base):
-        """
-        Calculate the logarithm of input with a chosen base (positive, not equal to 1)
+        """Calculate the logarithm of input with a chosen base (positive, not equal to 1)
 
         :param x: Dual number
         :param base: positive real number
@@ -182,8 +174,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def sin(x):
-        """
-        Calculate the sine operation of input
+        """Calculate the sine operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -193,8 +184,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def cos(x):
-        """
-        Calculate the cosine operation of input
+        """Calculate the cosine operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -204,8 +194,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def tan(x):
-        """
-        Calculate the tangent operation of input
+        """Calculate the tangent operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -215,8 +204,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def arcsin(x):
-        """
-        Calculate the inverse of sine operation of input
+        """Calculate the inverse of sine operation of input
 
         :param x: Dual Number, and the real part domain:[-1,1]
         :return: Dual Number
@@ -226,8 +214,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def arccos(x):
-        """
-        Calculate the inverse of cosine operation of input
+        """Calculate the inverse of cosine operation of input
 
         :param x: Dual Number, and the real part domain:[-1,1]
         :return: Dual Number
@@ -237,8 +224,7 @@ class Dual:
     @staticmethod
     @vec_dec
     def arctan(x):
-        """
-        Calculate the inverse of tangent operation of input
+        """Calculate the inverse of tangent operation of input
 
         :param x: Dual Number
         :return: Dual Number, and the real part domain is all real numbers
@@ -248,8 +234,7 @@ class Dual:
     @staticmethod #(sinh, cosh, tanh)
     @vec_dec
     def sinh(x):
-        """
-        Calculate the hyperbolic sine operation of input
+        """Calculate the hyperbolic sine operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -259,8 +244,7 @@ class Dual:
     @staticmethod 
     @vec_dec
     def cosh(x):
-        """
-        Calculate the hyperbolic cosine operation of input
+        """Calculate the hyperbolic cosine operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -270,8 +254,7 @@ class Dual:
     @staticmethod 
     @vec_dec
     def tanh(x):
-        """
-        Calculate the hyperbolic tangent operation of input
+        """Calculate the hyperbolic tangent operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -281,8 +264,7 @@ class Dual:
     @staticmethod 
     @vec_dec
     def sigmoid(x):
-        """
-        Calculate the sigmoid operation of input
+        """Calculate the sigmoid operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -293,8 +275,7 @@ class Dual:
     @staticmethod 
     @vec_dec
     def sqrt(x):
-        """
-        Calculate the square root operation of input
+        """Calculate the square root operation of input
 
         :param x: Dual Number
         :return: Dual Number
@@ -322,16 +303,18 @@ class DualVector(Dual):
         for s in self.dual_vec:
             ret += str(s) + "\n"
         return ret
+    
+    def __eq__(self, other):
+        return type(other) == DualVector and \
+            all([self.dual_vec[i] == other.dual_vec[i] for i in range(len(self.dual_vec))])
 
     def get_real(self):
-        """
-        Return the real part of Dual vector as a list
+        """Return the real part of Dual vector as a list
         """
         return [d.real for d in self.dual_vec]
 
     def get_dual(self):
-        """
-        Return the dual part of Dual vector as a list
+        """Return the dual part of Dual vector as a list
         """
         return [d.dual for d in self.dual_vec]
 

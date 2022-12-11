@@ -12,6 +12,7 @@ tests=(
     expression/variable_test.py
     expression/function_test.py
     expression/ops_test.py
+    expression/compose_test.py
 )
 
 # Must add the module source path because we use `import cs107_package` in
