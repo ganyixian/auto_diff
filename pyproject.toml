@@ -20,6 +20,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
+dependencies = [
+    "numpy"
+    "pytest"
+    "pytest-cov"
+]
 [project.urls]
 "Homepage" = "https://code.harvard.edu/CS107/team04"
