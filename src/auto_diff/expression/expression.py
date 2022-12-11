@@ -87,7 +87,7 @@ class Compose:
             yield f
 
     def __str__(self):
-        return str(self.funcs)
+        return '\n'.join([str(func) for func in self.funcs])
 
 
 class Expression:

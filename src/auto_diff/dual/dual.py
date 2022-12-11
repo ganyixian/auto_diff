@@ -322,6 +322,10 @@ class DualVector(Dual):
         for s in self.dual_vec:
             ret += str(s) + "\n"
         return ret
+    
+    def __eq__(self, other):
+        return type(other) == DualVector and \
+            all([self.dual_vec[i] == other.dual_vec[i] for i in range(len(self.dual_vec))])
 
     def get_real(self):
         """

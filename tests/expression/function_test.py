@@ -9,6 +9,10 @@ class TestFunctionUnit:
         f1 = Function(Variable('a'))
         f2 = Function(Variable('a'), Variable('b'))
 
+    def test_function__str__(self):
+        f1 = Function(Variable('a'))
+        assert str(f1) == "Function object, function of {'a'}"
+
     def test_function_clear(self):
         f1 = Function(Variable('a'))
         f1.clear()

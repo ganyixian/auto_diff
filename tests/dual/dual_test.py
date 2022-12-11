@@ -122,10 +122,9 @@ class TestDual:
         for x in Dual(0, 1):
             assert x == Dual(0, 1)
 
-    # Test not passing due to pytest
-    # def test_dual_str(self):
-    #     x = Dual(2, 1)
-    #     self.assertEqual(str(x), "real 2, dual 1")
+    def test_dual_str(self):
+        x = Dual(2, 1)
+        assert str(x) == "real 2, dual 1"
 
     def test_dual_ne(self):
         x = Dual(2, 1)
@@ -241,3 +240,17 @@ class TestDual:
     def test_dual_vector_get_dual(self):
         x = DualVector(real=[0, 1], dual=[0, 2], vec=None)
         assert x.get_dual() == [0, 2]
+
+    def test_dual_vector_str(self):
+        x = DualVector(real=[0, 1], dual=[0, 2], vec=None)
+        assert str(x) == "real 0, dual 0\nreal 1, dual 2\n"
+
+    def test_dual_vector_add_int(self):
+        x = DualVector(real=[0, 1], dual=[0, 2], vec=None)
+        assert x + 10 == DualVector(real=[10, 11], dual=[0, 2], vec=None)
+
+    
+    def test_dual_vector_add_vector(self):
+        d1 = DualVector(real=[0, 1], dual=[0, 2], vec=None)
+        d2 = DualVector(real=[0, 1], dual=[0, 2], vec=None)
+        assert d1 + d2 == DualVector(vec=[x1 + x2 for x1, x2 in zip(d1, d2)])
