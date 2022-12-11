@@ -1,7 +1,10 @@
+import sys
+sys.path.append('src/')
+sys.path.append('../../src')
 import pytest
 
-from auto_diff.dual import Dual
-from auto_diff.expression import Variable
+from auto_diff_CGLLY.dual import Dual
+from auto_diff_CGLLY.expression import Variable
 
 class TestVariable:
 

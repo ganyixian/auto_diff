@@ -1,4 +1,7 @@
-from auto_diff.expression import Variable, Compose
+import sys
+sys.path.append('src/')
+sys.path.append('../../src')
+from auto_diff_CGLLY.expression import Variable, Compose
 
 import numpy as np
 import pytest

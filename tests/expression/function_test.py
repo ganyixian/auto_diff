@@ -1,8 +1,11 @@
+import sys
+sys.path.append('src/')
+sys.path.append('../../src')
 import pytest
 import numpy as np
 
-from auto_diff.dual.dual import Dual
-from auto_diff.expression import Expression, Function, Variable
+from auto_diff_CGLLY.dual.dual import Dual
+from auto_diff_CGLLY.expression import Expression, Function, Variable
 
 class TestFunctionUnit:
 

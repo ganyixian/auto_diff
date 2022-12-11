@@ -1,5 +1,8 @@
-from auto_diff.dual import Dual
-from auto_diff.expression import ops
+import sys
+sys.path.append('src/')
+sys.path.append('../../src')
+from auto_diff_CGLLY.dual import Dual
+from auto_diff_CGLLY.expression import ops
 
 import numpy as np
 import pytest
