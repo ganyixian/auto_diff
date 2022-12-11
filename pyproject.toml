@@ -3,23 +3,27 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "auto_diff_team_04"
-version = "0.0.1"
+name = "auto_diff_2022_fall_team04"
+version = "0.0.2"
 authors = [
   { name="Yixian Gan", email="ygan@g.harvard.edu" },
-  { name="Li Yao", email="author@example.com" },
+  { name="Li Yao", email="li.yao@fas.harvard.edu" },
   { name="Ting Cheng", email="tingcheng@g.harvard.edu" },
   { name="Haitian Liu", email="haitianliu@fas.harvard.edu" },
   { name="Siyao Li", email="siyaoli@g.harvard.edu" },
 ]
 description = "A auto differentiation package for CS107 final project."
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
+dependencies = [
+    "numpy"
+    "pytest"
+    "pytest-cov"
+]
 [project.urls]
 "Homepage" = "https://code.harvard.edu/CS107/team04"
