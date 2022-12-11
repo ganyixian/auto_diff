@@ -71,6 +71,7 @@ class TestFunctionUnit:
         print(f_val, f_deriv)
 
         assert np.isclose(f_val, -0.9023025291165417)
-        assert f_deriv == {'x': -2.6145744834544478, 'y': -3.957432986493527}
+        assert np.isclose(f_deriv['x'], -2.6145744834544478)
+        assert np.isclose(f_deriv['y'], -3.957432986493527)
 
 
