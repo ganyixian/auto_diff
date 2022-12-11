@@ -1,4 +1,5 @@
 import pytest
+import numpy as np
 
 from auto_diff.dual.dual import Dual
 from auto_diff.expression import Expression, Function, Variable
@@ -69,7 +70,7 @@ class TestFunctionUnit:
         f_val, f_deriv = f({'x': 1, 'y': 2})
         print(f_val, f_deriv)
 
-        assert f_val == -0.9023025291165417
+        assert np.isclose(f_val, -0.9023025291165417)
         assert f_deriv == {'x': -2.6145744834544478, 'y': -3.957432986493527}
-        
+
 
