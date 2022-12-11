@@ -12,7 +12,7 @@ fi
 
 if [[ ${tool} == 'coverage' ]]; then
     # run the tests (generates coverage data to build report)
-    ./run_tests.sh coverage run --source=audo_diff "${@}"
+    ./run_tests.sh coverage run --source=auto_diff "${@}"
 
     # build the coverage report on stdout
     coverage report -m
