@@ -6,8 +6,7 @@
 import numpy as np
 
 class Node:
-    """
-    A class represents one single node in the computational graph. In reverse mode, 
+    """A class represents one single node in the computational graph. In reverse mode, 
     every object of Expression class would be paired up with one Node object, which stores 
     the parents and children nodes of the current node. 
     """
@@ -26,8 +25,7 @@ class Node:
         self.adjoint = None
 
     def update(self, *args):
-        """
-        Update the partial value based on the input and partial derivative function.
+        """Update the partial value based on the input and partial derivative function.
 
         :param args: input list of the current node.
         """
@@ -35,8 +33,7 @@ class Node:
             self.partial_val.append(ddp(*args))
 
     def notify(self, id, val):
-        """
-        Function to notify the partent after finishing computing.
+        """Function to notify the partent after finishing computing.
 
         :param id: child id
         :param val: computed value by child
@@ -49,8 +46,7 @@ class Node:
         self.received.add(id)
 
     def compute(self):
-        """
-        Aggregate the results to get the adjoint of the current node and return the adjoint. 
+        """Aggregate the results to get the adjoint of the current node and return the adjoint. 
 
         :return: boolean of whether the compute succeded.
         """
@@ -64,8 +60,7 @@ class Node:
             return False
 
     def clear(self):
-        """
-        Clear the calculated result of the node.
+        """Clear the calculated result of the node.
         """
         self.partial_val = []
         self.received = set()

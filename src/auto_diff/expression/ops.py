@@ -16,8 +16,7 @@ All operators are compatible with Dual numbers.
 """
 
 def _sin(x):
-    """
-    Calculate the sine operation of input
+    """Calculate the sine operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -28,8 +27,7 @@ def _sin(x):
 
 
 def _cos(x):
-    """
-    Calculate the cosine operation of input
+    """Calculate the cosine operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -39,8 +37,7 @@ def _cos(x):
 
 
 def _tan(x):
-    """
-    Calculate the tangent operation of input
+    """Calculate the tangent operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -49,8 +46,7 @@ def _tan(x):
     return res
 
 def _arcsin(x):
-    """
-    Calculate the inverse of sine operation of input
+    """Calculate the inverse of sine operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -59,8 +55,7 @@ def _arcsin(x):
     return res
 
 def _arccos(x):
-    """
-    Calculate the inverse of cosine operation of input
+    """Calculate the inverse of cosine operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -69,8 +64,7 @@ def _arccos(x):
     return res
 
 def _arctan(x):
-    """
-    Calculate the inverse of tangent operation of input
+    """Calculate the inverse of tangent operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -79,8 +73,7 @@ def _arctan(x):
     return res
 
 def _sinh(x):
-    """
-    Calculate the hyperbolic sine operation of input
+    """Calculate the hyperbolic sine operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -89,8 +82,7 @@ def _sinh(x):
     return res
 
 def _cosh(x):
-    """
-    Calculate the hyperbolic cosine operation of input
+    """Calculate the hyperbolic cosine operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -100,8 +92,7 @@ def _cosh(x):
 
 
 def _tanh(x):
-    """
-    Calculate the hyperbolic tangent operation of input
+    """Calculate the hyperbolic tangent operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -110,8 +101,7 @@ def _tanh(x):
     return res
 
 def _exp(x):
-    """
-    Calculate the exponential operation of input
+    """Calculate the exponential operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -121,8 +111,7 @@ def _exp(x):
 
 
 def _log(x):
-    """
-    Calculate the natural logarithmic operation of input
+    """Calculate the natural logarithmic operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -131,8 +120,7 @@ def _log(x):
     return res
 
 def _log_base(x, base):
-    """
-    Calculate the logarithm of input with a chosen base (positive, not equal to 1)
+    """Calculate the logarithm of input with a chosen base (positive, not equal to 1)
 
     :param x: Real or Dual number
     :param base: positive real number
@@ -142,8 +130,7 @@ def _log_base(x, base):
     return res
 
 def _sigmoid(x):
-    """
-    Calculate the sigmoid operation of input
+    """Calculate the sigmoid operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type
@@ -152,8 +139,7 @@ def _sigmoid(x):
     return res
 
 def _sqrt(x):
-    """
-    Calculate the square root operation of input
+    """Calculate the square root operation of input
 
     :param x: Real or Dual Number
     :return: Corresponding input type

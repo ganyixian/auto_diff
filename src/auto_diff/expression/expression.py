@@ -11,9 +11,7 @@ from .node import Node
 
 
 def _generate_base(inputs):
-    """
-
-    Function to generate zero vector for forward evaluation process
+    """Function to generate zero vector for forward evaluation process
 
     :param inputs: Dictionary input
     :return: A list of int, float, or list.
@@ -34,12 +32,10 @@ def _generate_base(inputs):
 
 
 class Compose:
-    """
-    A wrapper class that achieves evaluating mutiple functions together.
+    """A wrapper class that achieves evaluating mutiple functions together.
     """
     def __init__(self, flist=[]):
-        """
-        Initialize the Compose object by the input function list
+        """Initialize the Compose object by the input function list
         
         :param flist: Function list
         """
@@ -63,8 +59,7 @@ class Compose:
             return [f(inputs, seed) for f in self.funcs]
 
     def merge(self, res_dict):
-        """
-        Merge the evaluation results from a dictionary to a single list.
+        """Merge the evaluation results from a dictionary to a single list.
 
         :param res_dict: Result Dictonary
         :return: Result list
@@ -80,8 +75,7 @@ class Compose:
         return res_list
 
     def clear(self):
-        """
-        Clear the input and other variable saved in the functions.
+        """Clear the input and other variable saved in the functions.
         """
         for f in self.funcs:
             f.clear()
@@ -98,8 +92,7 @@ class Compose:
 
 
 class Expression:
-    """
-    Base class for Function and Variable. Defines the underlying common functions
+    """Base class for Function and Variable. Defines the underlying common functions
     shared by both classes.
     """
     def __init__(self, mode='f', name=None):
@@ -204,8 +197,7 @@ class Expression:
 
     @staticmethod
     def sin(x):
-        """
-        Create a Function object for sine operation of input
+        """Create a Function object for sine operation of input
 
         :param x: Expression
         :return: Function
@@ -215,8 +207,7 @@ class Expression:
 
     @staticmethod
     def cos(x):
-        """
-        Create a Function object for cosine operation of input
+        """Create a Function object for cosine operation of input
 
         :param x: Expression
         :return: Function
@@ -226,8 +217,7 @@ class Expression:
 
     @staticmethod
     def tan(x):
-        """
-        Create a Function object for tangent operation of input
+        """Create a Function object for tangent operation of input
 
         :param x: Expression
         :return: Function
@@ -238,8 +228,7 @@ class Expression:
     # new implemented inverse trig functions.
     @staticmethod
     def arcsin(x):
-        """
-        Create a Function object for inverse of sine operation of input
+        """Create a Function object for inverse of sine operation of input
 
         :param x: Expression
         :return: Function
@@ -249,8 +238,7 @@ class Expression:
 
     @staticmethod
     def arccos(x):
-        """
-        Create a Function object for inverse of cosine operation of input
+        """Create a Function object for inverse of cosine operation of input
 
         :param x: Expression
         :return: Function
@@ -260,8 +248,7 @@ class Expression:
 
     @staticmethod
     def arctan(x):
-        """
-        Create a Function object for inverse of tangent operation of input
+        """Create a Function object for inverse of tangent operation of input
 
         :param x: Expression
         :return: Function
@@ -272,8 +259,7 @@ class Expression:
     # new implemented hyperbolic functions.
     @staticmethod
     def sinh(x):
-        """
-        Create a Function object for hyperbolic sine operation of input
+        """Create a Function object for hyperbolic sine operation of input
 
         :param x: Expression
         :return: Function
@@ -283,8 +269,7 @@ class Expression:
 
     @staticmethod
     def cosh(x):
-        """
-        Create a Function object for hyperbolic cosine operation of input
+        """Create a Function object for hyperbolic cosine operation of input
 
         :param x: Expression
         :return: Function
@@ -294,8 +279,7 @@ class Expression:
 
     @staticmethod
     def tanh(x):
-        """
-        Create a Function object for hyperbolic tangent operation of input
+        """Create a Function object for hyperbolic tangent operation of input
 
         :param x: Expression
         :return: Function
@@ -306,8 +290,7 @@ class Expression:
     # new implemented standard logistic function.
     @staticmethod
     def sigmoid(x):
-        """
-        Create a Function object for sigmoid operation of input
+        """Create a Function object for sigmoid operation of input
 
         :param x: Expression
         :return: Function
@@ -319,8 +302,7 @@ class Expression:
 
     @staticmethod
     def exp(x):
-        """
-        Create a Function object for exponential operation of input
+        """Create a Function object for exponential operation of input
 
         :param x: Expression
         :return: Function
@@ -330,8 +312,7 @@ class Expression:
 
     @staticmethod
     def log(x):
-        """
-        Create a Function object for natural logarithmic operation of input
+        """Create a Function object for natural logarithmic operation of input
 
         :param x: Expression
         :return: Function
@@ -341,8 +322,7 @@ class Expression:
 
     @staticmethod
     def log_base(x, base):
-        """
-        Create a Function object for the logarithm operation with a chosen base
+        """Create a Function object for the logarithm operation with a chosen base
 
         :param x: Expression
         :return: Function
@@ -352,8 +332,7 @@ class Expression:
 
     @staticmethod
     def sqrt(x):
-        """
-        Create a Function object for square root operation of input
+        """Create a Function object for square root operation of input
 
         :param x: Expression
         :return: Function
@@ -363,8 +342,7 @@ class Expression:
 
 
 class Function(Expression):
-    """
-    A class represents a mathamatical function. The function class supports building functions from variables 
+    """A class represents a mathamatical function. The function class supports building functions from variables 
     and evaluating in both forward mode and backward mode.
     """
 
@@ -379,8 +357,7 @@ class Function(Expression):
             self.varname.update(e2.varname)
 
     def forward(self, inputs, seed):
-        """
-        Forward mode differentiation for a Function.
+        """Forward mode differentiation for a Function.
 
         :param inputs: dictionary
         :param seed: dictionary
@@ -399,8 +376,7 @@ class Function(Expression):
         return self.val
 
     def clear(self):
-        """
-        Clear the previous evaluation result, and clears the expressions and node.
+        """Clear the previous evaluation result, and clears the expressions and node.
         """
         self.e1.clear()
         if self.e2:
@@ -410,8 +386,7 @@ class Function(Expression):
             self.node.clear()
 
     def propagate(self, inputs, child=None):
-        """
-        Forward pass of the reverse mode differentiation.
+        """Forward pass of the reverse mode differentiation.
         
         :param inputs: input dictionary
         :param child: node
@@ -432,8 +407,7 @@ class Function(Expression):
         return self.val
 
     def backward(self):
-        """
-        Backward pass of the reverse mode differentiation.
+        """Backward pass of the reverse mode differentiation.
         :return: derivative result -> int, float, or np.array 
         """
         res = {}
@@ -460,8 +434,7 @@ class Function(Expression):
 
 
 class Variable(Expression):
-    """
-
+    """A class represents a mathematical variable.
     """
 
     def __init__(self, name, mode='f'):
@@ -472,8 +445,7 @@ class Variable(Expression):
 
     @classmethod
     def vars(cls, varlist=[], mode='f'):
-        """
-        Create a list of function with in put name and mode
+        """Create a list of function with in put name and mode
 
         :param varlist: variable name list
         :param mode: variable mode
@@ -483,8 +455,7 @@ class Variable(Expression):
         return [cls(v, mode) for v in varlist]
 
     def forward(self, inputs, seed):
-        """
-        Forward mode differentiation for a variable.
+        """Forward mode differentiation for a variable.
 
         :param inputs:
         :param seed:
@@ -508,16 +479,14 @@ class Variable(Expression):
         return self.val
 
     def clear(self):
-        """
-        Clear the previous differentiation results.
+        """Clear the previous differentiation results.
         """
         self.val = None
         if self.node:
             self.node.clear()
 
     def propagate(self, inputs, child=None):
-        """
-        Forward pass of the reverse mode differentiation for a variable.
+        """Forward pass of the reverse mode differentiation for a variable.
         
         :param inputs: input dictionary
         :param child: node
@@ -543,8 +512,7 @@ class Variable(Expression):
         return self.val
 
     def backward(self):
-        """
-        Backward pass of the reverse mode differentiation for a variable.
+        """Backward pass of the reverse mode differentiation for a variable.
         :return: derivative result -> int, float, or np.array 
         """
         if self.node.compute():
