@@ -518,8 +518,9 @@ class Variable(Expression):
             return self.val
 
         if type(inputs) == dict:
-            self.val = inputs.get(self.name, 0)
-        elif type(inputs) in [list, np.ndarray]:
+            inputs = inputs.get(self.name, 0)
+        
+        if type(inputs) in [list, np.ndarray]:
             self.val = np.array(inputs)
         elif type(inputs) in [int, float]:
             self.val = inputs
