@@ -9,7 +9,7 @@ Yixian Gan, Siyao Li, Li Yao, Ting Cheng, Haitian Liu
 ## Brief Introduction
 This is the final project for Harvard CS107/AC207 class in 2022 Fall. The package was designed to calculate the first-order derivative of any user-defined functions in the direction of a given seed vector. Both forward and reverse modes are supported. 
 
-For the detailed instruction, please refer to documentation.ipynb in /docs. 
+For the detailed instruction, please refer to [documentation.ipynb](https://code.harvard.edu/CS107/team04/blob/main/docs/documentation.ipynb) in /docs. 
 
 ## Broader Impact 
 Our package was designed to compute the first-order derivative of any given function using both forward and reverse mode of automatic differentiation. Compared to symbolic differentiation and numerical differentiation, automatic differentiation provides a less costly but efficient way of calculating derivatives while maintaining machine precision. Automatic differentiation is widely used in machine learning, data science, audio signal processing and many other fields. We believe the nature of automatic differentiation would be helpful for these large projects, which require a large amount of computing power.
