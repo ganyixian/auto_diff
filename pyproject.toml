@@ -23,7 +23,7 @@ classifiers = [
 dependencies = [
     "numpy",
     "pytest",
-    "sphinx"
+    "sphinx",
     "pytest-cov"
 ]
 [project.urls]
