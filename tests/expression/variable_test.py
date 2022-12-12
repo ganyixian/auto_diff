@@ -1,7 +1,10 @@
+import sys
+sys.path.append('src/')
+sys.path.append('../../src')
 import pytest
 
-from auto_diff.dual import Dual
-from auto_diff.expression import Variable
+from auto_diff_CGLLY.dual import Dual
+from auto_diff_CGLLY.expression import Variable
 
 class TestVariable:
 
@@ -54,3 +57,8 @@ class TestVariable:
         result = v1.forward({},{})
 
         assert result == Dual(1, 2)
+    
+    def test_variable_forward_with_unsupported_val(self):
+        v1 = Variable('a')
+        with pytest.raises(Exception):
+            v1.forward("", None)

@@ -12,17 +12,17 @@ fi
 
 if [[ ${tool} == 'coverage' ]]; then
     # run the tests (generates coverage data to build report)
-    ./run_tests.sh coverage run --source=audo_diff "${@}"
+    ./run_tests.sh coverage run --source=auto_diff_CGLLY "${@}"
 
     # build the coverage report on stdout
     coverage report -m
 elif [[ ${tool} == 'pytest' ]]; then
     # generate coverage reports with pytest in one go
-    ./run_tests.sh pytest --cov=auto_diff"${@}"
+    ./run_tests.sh pytest --cov=auto_diff_CGLLY"${@}"
     # py.test auto_diff 
 elif [[ ${tool} == 'pytest-xml' ]]; then
     # generate xml coverage reports with pytest in one go
-    ./run_tests.sh pytest --cov=auto_diff --cov-report xml:cov.xml"${@}"
+    ./run_tests.sh pytest --cov=auto_diff_CGLLY --cov-report xml:cov.xml"${@}"
     # py.test auto_diff 
 else
     # error: write to stderr
