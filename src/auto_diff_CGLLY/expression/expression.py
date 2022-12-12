@@ -146,6 +146,11 @@ class Expression:
                self.varname == other.varname
 
     def __add__(self, other):
+        """
+        This allows for addition with Expression instances or scalar numbers. 
+        :param other: Expression instance or scalar number
+        :return: Function
+        """
         if isinstance(other, Expression):
             return Function(self, other, (lambda x, y: x + y), self.mode,
                             Node([self.node, other.node], [(lambda x, y: 1), (lambda x, y: 1)]))
@@ -153,6 +158,11 @@ class Expression:
         return Function(self, f=(lambda x: x + other), mode=self.mode, node=Node([self.node], [(lambda x: 1)]))
 
     def __mul__(self, other):
+        """
+        This allows for multiplication with Expression instances or scalar numbers. 
+        :param other: Expression instance or scalar number
+        :return: Function
+        """
         if isinstance(other, Expression):
             return Function(self, other, (lambda x, y: x * y), self.mode,
                             Node([self.node, other.node], [(lambda x, y: y), (lambda x, y: x)]))
@@ -162,25 +172,52 @@ class Expression:
     __rmul__ = __mul__
 
     def __sub__(self, other):
+        """
+        This allows for substraction with Expression instances or scalar numbers. 
+        :param other: Expression instance or scalar number
+        :return: Function
+        """
+
         if isinstance(other, Expression):
             return Function(self, other, (lambda x, y: x - y), self.mode,
                             Node([self.node, other.node], [(lambda x, y: 1), (lambda x, y: -1)]))
         return Function(self, f=(lambda x: x - other), mode=self.mode, node=Node([self.node], [(lambda x: 1)]))
 
     def __rsub__(self, other):
+        """
+        This is called when scalar number - Expression 
+        :param other: scalar number
+        :return: Function
+        """
         return Function(self, f=(lambda x: other - x), mode=self.mode, node=Node([self.node], [(lambda x: -1)]))
 
     def __truediv__(self, other):
+        """
+        This allows for true division between Expression instances or scalar numbers. 
+        :param other: Expression instance or scalar number
+        :return: Function
+        """
         if isinstance(other, Expression):
             return Function(self, other, (lambda x, y: x / y), self.mode,
                             Node([self.node, other.node], [(lambda x, y: 1 / y), (lambda x, y: -x / y ** 2)]))
         return Function(self, f=(lambda x: x / other), mode=self.mode, node=Node([self.node], [(lambda x: x / other)]))
 
     def __rtruediv__(self, other):
+        """
+        This is called when scalar number / Expression 
+        :param other: scalar number
+        :return: Function
+        """
         return Function(self, f=(lambda x: other / x), mode=self.mode,
                         node=Node([self.node], [(lambda x: -other / x ** 2)]))
 
     def __pow__(self, power, modulo=None):
+        """
+        This allows for power operation between Expression instances or scalar numbers. 
+        :param other: Expression instance or scalar number
+        :return: Function
+        """
+        
         if isinstance(power, Expression):
             return Function(self, power, (lambda a, x: a ** x), self.mode,
                             Node([self.node, power.node],
@@ -189,10 +226,19 @@ class Expression:
                         node=Node([self.node], [(lambda x: power * x ** (power - 1))]))
 
     def __rpow__(self, other, modulo=None):
+        """
+        This is called when scalar number ** Expression 
+        :param other: scalar number
+        :return: Function
+        """
         return Function(self, f=(lambda a: other ** a), mode=self.mode,
                         node=Node([self.node], [(lambda x: other ** x * np.log(other))]))
 
     def __neg__(self):
+        """
+        This allows for negation of an Expression instance.
+        :return: Function
+        """
         return Function(self, f=(lambda x: -x), mode=self.mode, node=Node([self.node], [(lambda x: -1)]))
 
     @staticmethod
@@ -225,7 +271,6 @@ class Expression:
         assert isinstance(x, Expression)
         return Function(x, f=ops._tan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / np.cos(x) ** 2)]))
 
-    # new implemented inverse trig functions.
     @staticmethod
     def arcsin(x):
         """Create a Function object for inverse of sine operation of input
@@ -256,7 +301,6 @@ class Expression:
         assert isinstance(x, Expression)
         return Function(x, f=ops._arctan, mode=x.mode, node=Node([x.node], [(lambda x: 1 / (1 + x * x))]))
 
-    # new implemented hyperbolic functions.
     @staticmethod
     def sinh(x):
         """Create a Function object for hyperbolic sine operation of input
@@ -287,7 +331,6 @@ class Expression:
         assert isinstance(x, Expression)
         return Function(x, f=ops._tanh, mode=x.mode, node=Node([x.node], [(lambda x: 1 - (np.tanh(x)) ** 2)]))
 
-    # new implemented standard logistic function.
     @staticmethod
     def sigmoid(x):
         """Create a Function object for sigmoid operation of input
@@ -298,7 +341,6 @@ class Expression:
         assert isinstance(x, Expression)
         sig = 1 / (1 + Expression.exp(-x))
         return Function(x, f=ops._sigmoid, mode=x.mode, node=Node([x.node], [(lambda x: sig * (1 - sig))]))
-
 
     @staticmethod
     def exp(x):
@@ -521,6 +563,11 @@ class Variable(Expression):
             return {}
 
     def __eq__(self, other):
+        """
+        This allows for == operation between Variable instance and other class instance. 
+        :param other 
+        :return: Boolean
+        """
         if type(other) != Variable:
             return False
 
