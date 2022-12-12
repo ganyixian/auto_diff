@@ -44,6 +44,13 @@ class Dual:
 
     @vec_dec
     def __add__(self, other):
+        """
+        This allows for addition with Dual Number instances or scalar numbers. 
+        :param other: Dual number or scalar number
+        :return: Dual number object
+        :raises TypeError
+        """
+    
         if type(other) in [int, float]:
             return Dual(self.real + other, self.dual)
         elif type(other) == Dual:
@@ -54,6 +61,12 @@ class Dual:
 
     @vec_dec
     def __mul__(self, other):
+        """
+        This allows for multiplication with Dual Number instances or scalar numbers. 
+        :param other: Dual number or scalar number
+        :return: Dual number object
+        :raises TypeError
+        """
         if type(other) in [int, float]:
             return Dual(self.real * other, self.dual * other)
         elif type(other) == Dual:
@@ -64,19 +77,40 @@ class Dual:
 
     @vec_dec
     def __sub__(self, other):
+        """
+        This allows for substraction with Dual Number instances or scalar numbers. 
+        :param other: Dual number or scalar number
+        :return: Dual number object
+        :raises TypeError
+        """
         return self.__add__(-other)
 
     @vec_dec
     def __rsub__(self, other):
+        """
+        This will be called when int/float - Dual Number instance. 
+        :param other: int/float
+        :return: Dual number object
+        """
         if type(other) in [int, float]:
             return Dual(other - self.real, - self.dual)
 
     @vec_dec
     def __neg__(self):
+        """
+        This allows for negation of Dual number instance 
+        :return: Dual number object
+        """
         return Dual(-self.real, -self.dual)
 
     @vec_dec
     def __truediv__(self, other):
+        """
+        This allows for true division between Dual Number instances and scalar numbers. 
+        :param other: Dual number or scalar number
+        :return: Dual number object
+        :raises TypeError
+        """
         if type(other) in [int, float]:
             return Dual(self.real / other, self.dual / other)
         elif type(other) == Dual:
@@ -87,12 +121,23 @@ class Dual:
             
     @vec_dec
     def __rtruediv__(self, other):
+        """
+        This will be called when (int/float) / Dual Number instance. 
+        :param other: int/float
+        :return: Dual number object
+        """
         assert type(other) in [int, float]
 
         return Dual(other / self.real, - other * self.dual / self.real ** 2)
 
     @vec_dec
     def __pow__(self, power, modulo=None):
+        """
+        This allows for power operation between Dual Number instances and scalar numbers. 
+        :param other: Dual number or scalar number
+        :return: Dual number object
+        :raises TypeError
+        """
         if type(power) in [float, int]:
             c, d = power, 0
         elif type(power) == Dual:
@@ -105,6 +150,12 @@ class Dual:
     
     @vec_dec
     def __rpow__(self, other, modulo=None):
+        """
+        This will be called when (int/float) ** Dual Number instance. 
+        :param other: int/float
+        :return: Dual number object
+        :raises TypeError
+        """
         if type(other) in [float, int]:
             c = other
         else:
@@ -125,9 +176,19 @@ class Dual:
         return "real {}, dual {}".format(self.real, self.dual)
 
     def __eq__(self, other):
+        """
+        This allows for == operation between Dual Number instance and other class instance. 
+        :param other 
+        :return: Boolean
+        """
         return type(other) == Dual and np.isclose(self.real, other.real) and np.isclose(self.dual, other.dual)
 
     def __ne__(self, other):
+        """
+        This allows for != operation between Dual Number instance and other class instance. 
+        :param other 
+        :return: Boolean
+        """
         return type(other) != Dual or not np.isclose(self.real, other.real) or not np.isclose(self.dual, other.dual)
 
     def get_real(self):
@@ -305,6 +366,11 @@ class DualVector(Dual):
         return ret
     
     def __eq__(self, other):
+        """
+        This allows for == operation between Dual Vector instance and other class instance. 
+        :param other 
+        :return: Boolean
+        """
         return type(other) == DualVector and \
             all([self.dual_vec[i] == other.dual_vec[i] for i in range(len(self.dual_vec))])
 
