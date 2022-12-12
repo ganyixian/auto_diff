@@ -11,7 +11,7 @@ from ..dual import Dual
 
 """
 This module provides mathematical operations for Function evaluation. Operations include elementary functions 
-like exp, log, and basic trigonometry functions.
+like exp, log, sqrt, trigonometry functions, inverse trigonometry functions and hyperbolic functions.
 All operators are compatible with Dual numbers.
 """
 
